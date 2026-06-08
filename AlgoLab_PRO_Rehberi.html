@@ -1,0 +1,757 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AlgoLab PRO: Algoritma Analizi Başucu Rehberi</title>
+    <link href="https://fonts.googleapis.com/css2?family=Segoe+UI:wght@400;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-bg: #1e1e2e;
+            --sidebar-bg: #11111b;
+            --text-main: #cdd6f4;
+            --accent: #cba6f7;
+            --secondary-accent: #89b4fa;
+            --success: #a6e3a1;
+            --danger: #f38ba8;
+            --warning: #f9e2af;
+            --card-bg: #313244;
+            --danger-bg: rgba(243, 139, 168, 0.1);
+        }
+
+        body {
+            margin: 0;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: var(--primary-bg);
+            color: var(--text-main);
+            display: flex;
+            height: 100vh;
+            overflow: hidden;
+        }
+
+        /* Sidebar Tasarımı */
+        .sidebar {
+            width: 320px;
+            background-color: var(--sidebar-bg);
+            padding: 20px 0;
+            box-shadow: 2px 0 10px rgba(0,0,0,0.8);
+            display: flex;
+            flex-direction: column;
+            overflow-y: auto;
+        }
+
+        .sidebar h2 {
+            text-align: center;
+            color: var(--accent);
+            margin-bottom: 5px;
+            font-size: 1.8rem;
+            letter-spacing: 1px;
+        }
+
+        .sidebar p {
+            text-align: center;
+            color: var(--text-main);
+            font-size: 0.85rem;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+
+        .nav-btn {
+            background: none;
+            border: none;
+            color: var(--text-main);
+            padding: 15px 25px;
+            text-align: left;
+            font-size: 1.05rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            border-left: 4px solid transparent;
+            font-weight: 500;
+        }
+
+        .nav-btn:hover, .nav-btn.active {
+            background-color: var(--card-bg);
+            border-left: 4px solid var(--accent);
+            color: var(--accent);
+        }
+
+        .nav-category {
+            padding: 10px 25px;
+            color: var(--secondary-accent);
+            font-weight: bold;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            margin-top: 15px;
+            letter-spacing: 1px;
+        }
+
+        /* Ana İçerik Alanı */
+        .content-area {
+            flex: 1;
+            padding: 40px;
+            overflow-y: auto;
+            scroll-behavior: smooth;
+        }
+
+        .section {
+            display: none;
+            max-width: 950px;
+            margin: 0 auto;
+        }
+
+        .section.active {
+            display: block;
+            animation: fadeIn 0.4s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(15px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        h1 { color: var(--secondary-accent); border-bottom: 2px solid var(--card-bg); padding-bottom: 10px; font-size: 2.2rem;}
+        h2 { color: var(--accent); margin-top: 30px; font-size: 1.6rem; }
+        h3 { color: var(--accent); margin-top: 0; }
+        
+        .card { 
+            background-color: var(--card-bg); 
+            padding: 25px; 
+            border-radius: 10px; 
+            margin-bottom: 25px; 
+            line-height: 1.7; 
+            box-shadow: 0 4px 6px rgba(0,0,0,0.3);
+        }
+
+        .trap-box {
+            background-color: var(--danger-bg);
+            border-left: 4px solid var(--danger);
+            padding: 16px;
+            border-radius: 4px;
+            margin: 20px 0;
+        }
+
+        .trap-box h4 {
+            color: var(--danger);
+            display: flex;
+            align-items: center;
+            margin-bottom: 8px;
+            font-size: 1.1rem;
+            margin-top: 0;
+        }
+
+        .trap-box h4::before {
+            content: "⚠️";
+            margin-right: 8px;
+        }
+        
+        /* Laboratuvar Kontrolleri */
+        .hash-table { display: flex; gap: 10px; margin-top: 20px; flex-wrap: wrap; }
+        .hash-slot {
+            width: 60px; height: 60px;
+            background-color: var(--primary-bg);
+            border: 2px solid var(--secondary-accent);
+            border-radius: 8px;
+            display: flex; flex-direction: column;
+            align-items: center; justify-content: center;
+            font-size: 1.2rem; font-weight: bold; position: relative;
+        }
+        .slot-index { position: absolute; top: -22px; font-size: 0.85rem; color: #a6adc8; }
+        
+        .controls { display: flex; gap: 15px; margin-top: 20px; align-items: center; flex-wrap: wrap;}
+        input[type="number"], input[type="text"] {
+            padding: 12px; border-radius: 6px;
+            border: 1px solid var(--accent);
+            background: var(--primary-bg); color: white;
+            font-size: 1rem; width: 200px; outline: none;
+        }
+        input:focus { border-color: var(--secondary-accent); }
+        
+        button.action-btn {
+            padding: 12px 25px; background-color: var(--accent);
+            color: #111; border: none; border-radius: 6px;
+            font-weight: bold; font-size: 1rem; cursor: pointer;
+            transition: 0.2s transform;
+        }
+        button.action-btn:hover { transform: scale(1.05); background-color: #e6ccff; }
+        button.action-btn.danger { background-color: var(--danger); }
+        
+        /* Sınav Modülü Tasarımı */
+        .question { margin-bottom: 35px; background: rgba(0,0,0,0.2); padding: 20px; border-radius: 8px; border-left: 4px solid var(--secondary-accent);}
+        .question p { font-weight: bold; font-size: 1.15rem; color: #fff;}
+        .options label {
+            display: block; background: var(--primary-bg);
+            padding: 12px 15px; margin: 8px 0; border-radius: 6px;
+            cursor: pointer; border: 1px solid transparent; transition: 0.2s;
+        }
+        .options label:hover { border-color: var(--accent); background: #1e1e2e88;}
+        input[type="radio"] { margin-right: 10px; transform: scale(1.2);}
+        
+        code { background-color: #111; padding: 2px 6px; border-radius: 4px; color: var(--success); font-family: monospace; font-size: 1.05rem;}
+        pre { background-color: #111; padding: 20px; border-radius: 8px; overflow-x: auto; color: var(--success); font-size: 1.05rem; border: 1px solid #444; margin: 15px 0;}
+        #exam-result { font-size: 1.8rem; font-weight: bold; margin-top: 30px; text-align: center; padding: 20px; border-radius: 8px;}
+
+        /* B-Tree Tablo Görünümü */
+        table { width: 100%; border-collapse: collapse; margin-top: 15px; }
+        th, td { padding: 12px; border: 1px solid var(--text-main); text-align: center; }
+        th { background-color: var(--primary-bg); color: var(--accent); }
+    </style>
+</head>
+<body>
+
+    <div class="sidebar">
+        <h2>AlgoLab PRO</h2>
+        <p>Tam Kapsamlı Başucu Rehberi</p>
+        
+        <div class="nav-category">Konu Anlatımları</div>
+        <button class="nav-btn active" onclick="showSection('sec-1')">1. BST & Karmaşıklık</button>
+        <button class="nav-btn" onclick="showSection('sec-2')">2. Hashing Mimarisi</button>
+        <button class="nav-btn" onclick="showSection('sec-3')">3. Hash İstatistikleri</button>
+        <button class="nav-btn" onclick="showSection('sec-4')">4. B-Tree Yapıları</button>
+        <button class="nav-btn" onclick="showSection('sec-5')">5. Graf Teorisi</button>
+        <button class="nav-btn" onclick="showSection('sec-6')">6. DFS ve BFS</button>
+        <button class="nav-btn" onclick="showSection('sec-7')">7. MST ve Kruskal</button>
+        
+        <div class="nav-category">İnteraktif Laboratuvar</div>
+        <button class="nav-btn" onclick="showSection('lab-hash')">🧪 Lab: Linear Probing</button>
+        <button class="nav-btn" onclick="showSection('lab-btree')">⚙️ Lab: B-Tree Analizi</button>
+        
+        <div class="nav-category">Değerlendirme</div>
+        <button class="nav-btn" onclick="showSection('sinav')" style="color: var(--warning)">📝 Final Simülasyonu</button>
+    </div>
+
+    <div class="content-area">
+        
+        <!-- BÖLÜM 1 -->
+        <div id="sec-1" class="section active">
+            <h1>Bölüm 1: Algoritma Karmaşıklığı ve BST</h1>
+            
+            <div class="card">
+                <h3>Asimptotik Notasyonlar ve Arama Mantığı</h3>
+                <p>Bir BST'de (İkili Arama Ağacı) arama yaparken her adımda köke bakıp "Aradığım sayı bundan küçük mü, büyük mü?" deriz. Küçükse sola, büyükse sağa gideriz. Bu yapı asimptotik notasyonlarla analiz edilir:</p>
+                <ul>
+                    <li><strong>En Kötü Durum (Worst Case):</strong> Sayılar sürekli artan veya azalan şekilde gelmişse (1, 2, 3...), ağaç düz bir çizgi (bağlı liste) olur. Süre: <code>O(n)</code>. Denklem: <code>T(n) = T(n-1) + c</code></li>
+                    <li><strong>En İyi/Ortalama Durum:</strong> Ağaç dengeliyse (örn. AVL veya Kırmızı-Siyah ağacı gibi), her adımda seçenekleri yarıya indiririz. Süre: <code>O(log n)</code>. Denklem: <code>T(n) = T(n/2) + c</code> (Master Theorem Case 2'ye göre).</li>
+                </ul>
+                <p style="margin-top: 10px; color: var(--secondary-accent);"><strong>Master Theorem Hatırlatması:</strong> <code>T(n) = aT(n/b) + f(n)</code> formülünde BST için <code>a=1, b=2, f(n)=c</code>'dir. Bu da bizi doğrudan <code>O(log n)</code> sonucuna götürür.</p>
+            </div>
+
+            <div class="card">
+                <h3>Düğüm Silme (Deletion) Senaryoları</h3>
+                <p>Ağaçtan düğüm silmek, eklemekten çok daha karmaşıktır. 3 ana senaryo vardır:</p>
+                <ul>
+                    <li><strong>Yaprak Düğüm Silme:</strong> Direkt silinir, ebeveynin göstericisi <code>null</code> yapılır. En zahmetsiz işlemdir.</li>
+                    <li><strong>Tek Çocuklu Düğüm Silme:</strong> Silinen düğümün çocuğu, silinen düğümün ebeveynine bağlanır (Düğüm aradan çıkarılıp bypass edilir).</li>
+                    <li><strong>İki Çocuklu Düğüm Silme:</strong> İşlem oldukça karmaşıktır. Sağ alt ağacın en küçük elemanı (<em>Inorder Successor</em>) bulunur, değeri silinecek düğüme kopyalanır ve asıl successor silinir.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: İteratif Ekleme</h4>
+                <p>Özyineli (recursive) fonksiyonlar belleği şişirir (Call Stack). Bu yüzden while döngüsü ile ağacın dibine kadar (null bulana kadar) ineriz.</p>
+                <pre>Node current = root;
+Node parent = null;
+while(current != null) {
+    parent = current; // BİR NUMARALI TUZAK!
+    if(val < current.val) current = current.left;
+    else current = current.right;
+}</pre>
+                <p><strong>Soru:</strong> Koddaki <code>parent = current;</code> satırını silersek ne olur?<br>
+                <strong>Cevap:</strong> Döngü <code>current = null</code> olduğunda durur. Bulduğumuz o boşluğa yeni düğümü eklememiz lazım ama nerede olduğumuzu unutursak ekleyemeyiz. <code>parent</code> değişkeni, boşluğa düşmeden önceki son basamağı (ebeveyni) tutar.</p>
+            </div>
+
+            <div class="card">
+                <h3>Ağaçlarda Gezinme (Traversals)</h3>
+                <p>Bütün düğümlere 1 kez uğramak zorundayız, bu yüzden hepsinin zaman karmaşıklığı <code>Θ(n)</code>'dir. Formülü: <code>T(n) = T(k) + T(n-k-1) + c</code></p>
+                <ul>
+                    <li><strong>Inorder (Sol-Kök-Sağ):</strong> Sayıları küçükten büyüğe sıralı verir. (Test sorusu bankosu). Mantık: Önce sol çocuğu bitir, sonra kendini yazdır, en son sağa geç.</li>
+                    <li><strong>Preorder (Kök-Sol-Sağ):</strong> Ağacın birebir kopyasını oluşturmak veya ifade ağaçlarında (Expression Trees) prefix notasyonu elde etmek için kullanılır.</li>
+                    <li><strong>Postorder (Sol-Sağ-Kök):</strong> Ağacı bellekten silmek (yok etmek) için kullanılır (Kural: Önce çocukları sil, sonra babayı sil).</li>
+                    <li><strong>Level Order (Seviye Seviye):</strong> Yukarıdan aşağıya kat kat gezer. <strong>Kuyruk (Queue - FIFO)</strong> kullanılır. Klasik BFS (Genişliğine Arama) mantığıdır.</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BÖLÜM 2 -->
+        <div id="sec-2" class="section">
+            <h1>Bölüm 2: Hashing ve Kod Mimarisi</h1>
+            
+            <div class="card">
+                <h3>Hash Fonksiyonları</h3>
+                <p>İyi bir hash fonksiyonu hızlı hesaplanmalı ve verileri tabloya homojen şekilde dağıtmalıdır.</p>
+                <ul>
+                    <li><strong>Bölme Yöntemi (Division Method):</strong> <code>h(k) = k mod M</code>. Burada M genellikle asal sayı seçilir. Çift sayı veya 2'nin kuvvetleri seçilirse alt bitlerin tekrarına kurban gidebiliriz.</li>
+                    <li><strong>Çarpma Yöntemi (Multiplication Method):</strong> <code>h(k) = floor(M * (k * A mod 1))</code>. Burada A, 0 ile 1 arasında bir sabittir (Genellikle Altın Oran 0.618 kullanılır). Tablo boyutundan (M) bağımsız olarak dengeli çalışır.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: Hash Fonksiyonu Bitwise AND</h4>
+                <pre>int index = (key.hashCode() & 0x7fffffff) % tableSize;</pre>
+                <p>Java'da <code>hashCode</code> negatif sayı üretebilir. Negatif indeks programın çökmesine (ArrayIndexOutOfBounds) neden olur. Bu Bitwise AND işlemi sayının işaret bitini silip <strong>her zaman pozitif olmasını garantiler.</strong><br>
+                Sınavda <em>"Neden Math.abs() kullanılmaz?"</em> diye sorulabilir. Cevap: <code>Integer.MIN_VALUE</code> mutlak değere çevrildiğinde taşma yapar ve yine negatif kalır, ancak Bitwise AND bu istisnada bile hatasız çalışır!</p>
+            </div>
+
+            <div class="card">
+                <h3>Separate Chaining (Ayrı Zincirleme - Open Hashing)</h3>
+                <p>Hash fonksiyonu <code>h(k)</code> tablodaki indeksi belirler. Eğer iki veri aynı indekse denk gelirse (Çarpışma), o indekse dışarıdan bir bağlı liste (Linked List) kurar, elemanları uç uca ekleriz.</p>
+                <ul>
+                    <li><strong>Avantajı:</strong> Tablo boyutunu aşan sayıda eleman eklenebilir (Yük faktörü α > 1 olabilir).</li>
+                    <li><strong>Dezavantajı:</strong> Boş slotlarda fazladan pointer belleği (next referansı) israf edilir ve önbellek dostu (cache-friendly) değildir.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: Separate Chaining'de Silme</h4>
+                <p>Silme kodunda <code>n.key</code>'e değil, <code>n.next.key</code>'e bakılarak ilerlenir. Neden? Çünkü tek yönlü bağlı listede bir elemanı silmek için, bir önceki elemanın (ebeveyn) yerini bilmen gerekir ki bağlantıyı koparıp (<code>n.next = n.next.next</code>) aradaki istenmeyen elemanı düşürebilesin.</p>
+            </div>
+
+            <div class="card">
+                <h3>Closed Hashing (Açık Adresleme)</h3>
+                <p>Bağlı liste yok! Tüm veriler tablonun ana dizisinde (kendi içinde) tutulur. Slot doluysa belirlenen kurala göre bir sonraki adrese atlanır.</p>
+                <ul>
+                    <li><strong>Linear Probing (Doğrusal Atama):</strong> <code>h(k, i) = (h'(k) + i) mod M</code>. Birincil Kümelenme (Primary Clustering) yapar, dolu slotlar yan yana bloklaşır ve performansı düşürür.</li>
+                    <li><strong>Quadratic Probing (Karesel Atama):</strong> <code>h(k, i) = (h'(k) + i^2) mod M</code>. İkincil Kümelenme (Secondary Clustering) yapar. Aynı hash değerine sahip olanlar aynı atlama dizisini izler.</li>
+                    <li><strong>Double Hashing (Çift Hash):</strong> <code>h(k, i) = (h1(k) + i * h2(k)) mod M</code>. Kümelenmeyi önleyen en iyi yöntemdir, ancak h2(k)'nın hiçbir zaman 0 sonucunu vermemesi hayati önem taşır (yoksa sonsuz döngü olur).</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>En Büyük Kod Tuzağı: Mezar Taşı (Tombstone)</h4>
+                <p>Linear probing'de silinen elemanın yerini <code>null</code> YAPAMAZSIN. Yaparsan arama zinciri kopar. Koda <code>table[i].deleted = true;</code> bayrağı eklenir (Buna Lazy Deletion denir). Arama yaparken de <code>!table[i].deleted</code> kontrolü ile oranın sadece "silinmiş" bir mezar taşı olduğunu anlar ve aramaya devam ederiz.</p>
+            </div>
+        </div>
+
+        <!-- BÖLÜM 3 -->
+        <div id="sec-3" class="section">
+            <h1>Bölüm 3: Hashing İstatistikleri</h1>
+            <p>Sistemin matematiksel analizinin yapıldığı yer. Temel metrik: <strong>α = N/M</strong> (Yük faktörü = Dolu Eleman / Toplam Slot oranı).</p>
+
+            <div class="card">
+                <h3>Poisson Dağılımı ve Boş Slot İhtimali</h3>
+                <p>M tane slot ve N tane anahtar (key) olduğunu varsayalım. Binom dağılımının limitini alarak sistemi <strong>Poisson Dağılımına</strong> dönüştürüyoruz.</p>
+                <ul>
+                    <li>Bir slotun <strong>tamamen boş kalma ihtimali</strong>: <code>e^(-α)</code>'dır.</li>
+                    <li>Bir slota tam olarak <strong>1 eleman düşme ihtimali</strong>: <code>α * e^(-α)</code>'dır.</li>
+                </ul>
+                <p style="margin-top: 10px; color: var(--secondary-accent);"><strong>Örnek Olay:</strong> Tablo boyutu kadar eleman eklediniz (α=1). Bu durumda boş slot oranı = <code>e^(-1) ≈ %36.8</code> olur. Yani tablo dışarıdan "dolu" gibi görünse de aslında slotların %36'sı tamamen boştur, kalan %64'lük kısımda ise yoğun çakışmalar (2'den fazla eleman) vardır!</p>
+            </div>
+
+            <div class="card">
+                <h3>Open Hashing Beklenen Arama Süresi</h3>
+                <p>Separate Chaining yönteminde listeler eşit dağılmışsa:</p>
+                <ul>
+                    <li><strong>Başarılı bir arama yapmak</strong> ortalama <code>1 + (α/2)</code> adım sürer.</li>
+                    <li><strong>Başarısız bir arama yapmak</strong> ise bağlı listelerin sonuna kadar gitmeyi gerektirdiğinden ortalama <code>α</code> adım sürer.</li>
+                </ul>
+                <p>Bu sistemin gücü, α (yük faktörü) 1'i geçse bile (örneğin tablo 100 kapasiteli, siz 500 eleman eklediniz, α=5 olur) ortalama arama süresinin sadece 1 + 2.5 = 3.5 adımda tamamlanmasıdır.</p>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: Closed Hashing (Linear Probing) Çöküş İspatı</h4>
+                <p>Linear Probing'de beklenen maliyetler çok farklı bir formüle dayanır:</p>
+                <ul>
+                    <li>Başarısız arama maliyeti: <strong>≈ 0.5 * (1 + 1 / (1-α)^2)</strong></li>
+                    <li>Başarılı arama maliyeti: <strong>≈ 0.5 * (1 + 1 / (1-α))</strong></li>
+                </ul>
+                <p><strong>Bu formüllerin pratik anlamı nedir?</strong> Eğer tablo yarı yarıya doluysa (α = 0.5), başarılı arama yaklaşık 1.5 adım, başarısız arama 2.5 adım sürer. Ancak tablo %90 doluluğa ulaşırsa (α = 0.9), başarısız arama maliyeti <strong>50.5 adıma</strong> fırlar! Linear probing, yük faktörü %70'i geçmeye başladığında kümeler birleştiği için resmen felç geçirir.</p>
+            </div>
+        </div>
+
+        <!-- BÖLÜM 4 -->
+        <div id="sec-4" class="section">
+            <h1>Bölüm 4: B-Tree (Dengeli Disk Ağaçları)</h1>
+            <p>Milyonlarca veriyi kısa boylu bir ağaçta tutma sanatı. Veritabanları ve dosya sistemlerinde RAM'e değil diske yazarken yaşanan "Disk I/O darboğazını" çözmek için icat edilmişlerdir.</p>
+
+            <div class="card">
+                <h3>Neden B-Tree? Disk I/O Maliyeti Gerçeği</h3>
+                <p>RAM okuma hızı nanosaniyeler iken, Mekanik bir diskin okuma süresi (Seek time) milisaniyelerdir (Yani 100.000 kat daha yavaş). İkili ağaçlar (BST) uzun yapılı oldukları için veriyi bulana kadar defalarca diskten okuma yapar. B-Tree ise bir disk bloğuna (örn. 4KB veya 8KB) olabildiğince çok anahtar (key) sığdırarak ağacın boyunu kısaltır. Böylece sadece 2-3 disk okumasıyla milyarlarca veriye anında erişilir.</p>
+            </div>
+
+            <div class="card">
+                <h3>Kurallar (Derece t) ve Mekanikler</h3>
+                <ul>
+                    <li><strong>Kapasite:</strong> Kök (Root) hariç her düğüm en az <code>t-1</code>, en fazla <code>2t-1</code> anahtar (key) barındırmak zorundadır.</li>
+                    <li><strong>Çocuk Sayısı:</strong> Bir düğümde <code>k</code> tane anahtar varsa, o düğümün tam olarak <code>k+1</code> tane çocuğu (dalı) olmalıdır.</li>
+                    <li><strong>Denge:</strong> Bütün yapraklar (leaf nodes) birebir aynı derinlikte olmak zorundadır. BST'nin aksine B-Tree yukarıya doğru (köke doğru) büyür.</li>
+                    <li><strong>Maliyet:</strong> Arama, ekleme ve silme işlemlerinin Disk I/O maliyeti <code>O(log_t n)</code>'dir.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: Proactive Splitting (Önceden Bölme İşlemi)</h4>
+                <p>B-Tree'de eleman her zaman en alt seviyeye (yaprağa) eklenir. Ancak ekleme algoritması yukarıdan aşağı inerken, kapasitesi dolmuş (<code>2t-1</code> elemana ulaşmış) bir düğüm görürse, ileride geriye dönüp düzeltmek çok pahalı olacağı için onu <strong>ortadan ikiye böler (split)</strong> ve ortanca elemanı yukarı (ebeveyne) iter.<br>
+                <em>Sınav taktiği: Hoca adım adım B-Tree çizdirirse, ekleme yapacağınız yere giderken yolda gördüğünüz "dolu" düğümleri mutlaka önce bölün, sonra ilerleyin!</em></p>
+            </div>
+            
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: B-Tree'de Silme (Deletion Underflow)</h4>
+                <p>Eğer silinecek eleman bir iç düğümdeyse (yaprak değilse), kendisinden bir küçük (predecessor) veya bir büyük (successor) yaprak elemanla yer değiştirilip öyle silinir. <br>
+                Silme işlemi sonucunda düğümdeki eleman sayısı <code>t-1</code> sınırının altına düşerse (underflow), <strong>sağ veya sol kardeşten eleman ödünç alınır.</strong> Kardeşlerde de sadece t-1 eleman varsa, iki kardeş ve aralarındaki ebeveyn anahtarı <strong>birleştirilir (merge)</strong>.</p>
+            </div>
+        </div>
+
+        <!-- BÖLÜM 5 -->
+        <div id="sec-5" class="section">
+            <h1>Bölüm 5: Graf Teorisi Temelleri</h1>
+            <p>Düğümlerin (Vertex) kenarlarla (Edge) birbirine bağlandığı matematiksel modelleme aracıdır.</p>
+
+            <div class="card">
+                <h3>Graf Türleri ve Bellek Gösterimi (Representation)</h3>
+                <ul>
+                    <li><strong>Yönlü / Yönsüz Graflar:</strong> Kenarların (yolların) tek yönlü mü çift yönlü mü olduğu. Yönsüz graflarda maksimum kenar sayısı <code>V(V-1)/2</code>, yönlülerde <code>V(V-1)</code>'dir.</li>
+                    <li><strong>Adjacency Matrix (Komşuluk Matrisi):</strong> V x V boyutunda iki boyutlu dizidir. İki düğüm arasında bağlantı varsa 1 (veya ağırlık), yoksa 0 yazılır. Yoğun (Dense) graflar için idealdir. Bellek maliyeti: <code>O(V^2)</code>. Bir kenarı sorgulamak sadece <code>O(1)</code> sürer.</li>
+                    <li><strong>Adjacency List (Komşuluk Listesi):</strong> Her düğüm için kime bağlı olduğunu tutan bağlı listeler (Linked Lists) dizisidir. Seyrek (Sparse) graflar için en verimli yapıdır. Bellek maliyeti: <code>O(V+E)</code>. Ancak bir kenarın varlığını sorgulamak listeyi taramayı gerektirdiğinden yavaş olabilir.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: Hamilton ve Euler Macerası</h4>
+                <p>Bu iki konsept sıkça birbirine karıştırılır:</p>
+                <ul>
+                    <li><strong>Hamilton Döngüsü:</strong> Bütün <strong>DÜĞÜMLERİ</strong> (Şehirleri) tam 1 kez gezdiğin rotadır. Çözümü zor bir problemdir (NP-Complete). Meşhur "Gezgin Satıcı Problemi (TSP)" buraya dayanır.</li>
+                    <li><strong>Euler Döngüsü:</strong> Bütün <strong>KENARLARI</strong> (Yolları) tam 1 kez gezdiğin, kalemi kağıttan kaldırmadan başlangıca döndüğün rotadır. Şartı çok basittir: Graf bağlantılı olmalı ve <strong>tüm düğümlerin derecesi çift sayı olmalıdır.</strong> (Eğer sadece 2 düğmenin derecesi tek ise, Euler yolu vardır ama döngüsü yoktur).</li>
+                </ul>
+            </div>
+        </div>
+
+        <!-- BÖLÜM 6 -->
+        <div id="sec-6" class="section">
+            <h1>Bölüm 6: Graflarda Gezinme (DFS ve BFS)</h1>
+            <p>Her iki algoritma da tüm düğümleri ve kenarları tarar. Adjacency List (Komşuluk Listesi) kullanıldığında her ikisinin de Zaman Karmaşıklığı <strong><code>O(V + E)</code></strong>'dir.</p>
+
+            <div class="card">
+                <h3>Derinliğine Arama (DFS - Depth First Search)</h3>
+                <p>Mantığı karanlık bir labirente dalmaktır. Gidebildiğin en dibe gidip çıkmaza girince geri dönersin (Backtracking). Algoritma doğası gereği Özyineli (Recursive) çalışır veya iteratif uygulanacaksa <strong>Yığıt (Stack - LIFO)</strong> kullanılır.</p>
+                <ul>
+                    <li><strong>Kullanım Alanları:</strong> Grafta Döngü (Cycle) tespiti, Topolojik Sıralama (Topological Sort - birbirine bağlı derslerin veya görevlerin sıralanması), Bağlantılı Bileşen (Connected Components) tespiti.</li>
+                </ul>
+                <p style="color: var(--warning); margin-top: 10px;"><strong>Masaüstü Testi Tuzağı:</strong> İteratif DFS kodunda komşular Stack'e atılırken (örn: A düğümünden sonra B ve C atıldıysa), Stack mantığı gereği en son atılan C'dir ve ilk C'den çıkarak yoluna devam eder. Sınavdaki çıktı tahmin sorularında bu ters sıraya dikkat edin!</p>
+            </div>
+
+            <div class="card">
+                <h3>Genişliğine Arama (BFS - Breadth First Search)</h3>
+                <p>Suya atılan bir taşın dalgaları gibi, önce 1 birim uzaktakiler, sonra 2 birim uzaktakiler seviye seviye taranarak gezilir. Bunu başarmak için <strong>Kuyruk (Queue - FIFO)</strong> veri yapısı kullanılır.</p>
+                <ul>
+                    <li><strong>Kullanım Alanları:</strong> İki Parçalı (Bipartite) graf tespiti, Ağ içi iletişim yayınları (Broadcasting), Sosyal medyadaki "Arkadaş tavsiyesi" veya "Sana 2. derece uzaklıkta" özellikleri.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Bankosu: En Kısa Yol (Shortest Path)</h4>
+                <p>Ağırlıksız (Tüm kenar uzunlukları 1 birim) bir grafta A'dan B'ye <strong>En Kısa Yolu</strong> garanti eden algoritma hangisidir? <br>
+                Cevap kesinlikle <strong>BFS</strong>'dir. DFS, labirente daldığı için hedefe çok dolambaçlı bir yoldan ulaşabilir. Fakat BFS dalga dalga yayıldığı için, B düğümüyle ilk karşılaştığı an, o yol en kısa yoldur.</p>
+            </div>
+        </div>
+
+        <!-- BÖLÜM 7 -->
+        <div id="sec-7" class="section">
+            <h1>Bölüm 7: MST ve Kruskal Algoritması</h1>
+            <p><strong>MST (Minimum Spanning Tree - Minimum Kapsayan Ağaç):</strong> Bir graftaki tüm düğümleri birbirine bağlayan, ancak kenarların ağırlık (maliyet) toplamı en az olan alt ağaçtır. Adı üstünde "ağaç" olduğu için asla döngü (cycle) içeremez. V adet düğüm varsa tam olarak V-1 kenar içerir.</p>
+
+            <div class="card">
+                <h3>Prim vs Kruskal Karşılaştırması</h3>
+                <ul>
+                    <li><strong>Prim Algoritması:</strong> Herhangi bir başlangıç düğümü seçer ve kendi komşularından en ucuz olanı alarak büyür (Tıpkı Dijkstra gibi Priority Queue kullanır). Kenar sayısının çok fazla olduğu <strong>Yoğun (Dense) graflarda</strong> Kruskal'dan daha verimlidir. Maliyeti: <code>O(E log V)</code>.</li>
+                    <li><strong>Kruskal Algoritması:</strong> Mantığı tamamen Açgözlüdür (Greedy). Tüm grafın kenarlarını ağırlıklarına göre ucuzdan pahalıya doğru sıralar. Sırayla en ucuzunu seçer, eğer bu kenar grafikte bir döngü oluşturmuyorsa ağa ekler. Kenar sayısının az olduğu <strong>Seyrek (Sparse) graflarda</strong> rakipsizdir. Maliyeti (sıralama işleminden dolayı) <code>O(E log E)</code>'dir.</li>
+                </ul>
+            </div>
+
+            <div class="trap-box">
+                <h4>Sınav Tuzağı: Disjoint Set (Union-Find) ve Yol Sıkıştırma</h4>
+                <p>Kruskal, iki düğüm arasına çizgi çektiğinde döngü oluşup oluşmayacağını Disjoint Set mimarisindeki <code>find(x) == find(y)</code> fonksiyonu ile anlar. Eğer iki düğümün de en tepedeki atası (parent) aynıysa, aralarına çizgi çekmek döngü yaratır.</p>
+                <ul>
+                    <li><strong>Yol Sıkıştırma (Path Compression):</strong> Koddaki meşhur <code>parent[i] = find(parent[i])</code> satırı, arama yaparken geçilen tüm düğümlerin atalarını direkt olarak en tepeye bağlar. Ağacı dümdüz hale getirerek sonraki arama maliyetlerini dramatik bir şekilde düşürür.</li>
+                    <li><strong>Rank ile Birleştirme (Union by Rank):</strong> İki farklı ağaç birleşirken boyu (derinliği) kısa olan, boyu uzun olanın köküne eklenir ki genel ağacın derinliği artmasın.</li>
+                </ul>
+                <p style="margin-top: 10px;"><em>Not: Bu iki optimizasyon birlikte kullanıldığında işlemlerin karmaşıklığı <strong>Ters Ackermann Fonksiyonu <code>O(α(V))</code></strong> seviyesine iner ki bu pratik uygulamalarda <code>O(1)</code> kabul edilir. Kruskal'ın asıl zamanını alan şey Union-Find değil, kenarların başta sıralanmasıdır.</em></p>
+            </div>
+        </div>
+
+        <!-- LAB 1 -->
+        <div id="lab-hash" class="section">
+            <h1>Laboratuvar 1: Linear Probing Simülatörü</h1>
+            <div class="card">
+                <p><strong>Deney:</strong> <code>h(x) = x % 10</code> fonksiyonu kullanılıyor. Çarpışma olduğunda (örn: 15 ve 25) kümelenmenin (Clustering) nasıl biriktiğini kendi gözlerinizle görün.</p>
+                
+                <div class="controls">
+                    <input type="number" id="hashInput" placeholder="Sayı girin (Örn: 25)">
+                    <button class="action-btn" onclick="insertToHash()">Hücreye Gönder</button>
+                    <button class="action-btn danger" onclick="resetHash()">Sistemi Sıfırla</button>
+                </div>
+                <p id="lab-log" style="color: var(--success); font-family: monospace; margin-top: 15px; font-size:1.1rem;">Bekleniyor...</p>
+
+                <div class="hash-table" id="hashTableContainer"></div>
+            </div>
+        </div>
+
+        <!-- LAB 2 -->
+        <div id="lab-btree" class="section">
+            <h1>Laboratuvar 2: B-Tree Parametre Mühendisi</h1>
+            <div class="card">
+                <p><strong>Deney:</strong> B-Tree'nin derecesini (t) değiştirerek, bir düğümün kapasitelerinin nasıl şekillendiğini anında analiz edin. (Sınavdaki tablo soruları için harika pratik).</p>
+                
+                <div class="controls">
+                    <label style="font-weight: bold; font-size: 1.1rem; color: var(--text-main)">Derece (t) Giriniz (t ≥ 2): </label>
+                    <input type="number" id="btreeInput" value="3" min="2">
+                    <button class="action-btn" onclick="calculateBTree()">Sınırları Hesapla</button>
+                </div>
+
+                <div id="btreeResult" style="margin-top: 20px; display: none;">
+                    <table>
+                        <tr>
+                            <th>Özellik</th>
+                            <th>Formül</th>
+                            <th>Hesaplanan Değer</th>
+                        </tr>
+                        <tr>
+                            <td>Maksimum Anahtar (Key) Sayısı</td>
+                            <td>2t - 1</td>
+                            <td id="b-max-key" style="font-weight:bold; color:var(--danger)">-</td>
+                        </tr>
+                        <tr>
+                            <td>Minimum Anahtar (Key) Sayısı</td>
+                            <td>t - 1</td>
+                            <td id="b-min-key" style="font-weight:bold;">-</td>
+                        </tr>
+                        <tr>
+                            <td>Maksimum Çocuk (Child) Sayısı</td>
+                            <td>2t</td>
+                            <td id="b-max-child" style="font-weight:bold; color:var(--success)">-</td>
+                        </tr>
+                        <tr>
+                            <td>Minimum Çocuk (Child) Sayısı</td>
+                            <td>t</td>
+                            <td id="b-min-child" style="font-weight:bold;">-</td>
+                        </tr>
+                    </table>
+                    <p style="color: var(--warning); margin-top: 15px; text-align: center;">💡 Not: Ağaç ekleme yaparken düğümdeki anahtar sayısı <strong><span id="b-split-point"></span></strong> değerine ulaştığında Proactive Splitting (Önceden Bölme) gerçekleşir.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- SINAV -->
+        <div id="sinav" class="section">
+            <h1>Kapsamlı Final Simülasyonu</h1>
+            <div class="card">
+                <p style="color: var(--warning); margin-bottom: 20px;">Tüm notlarından ve hocanın potansiyel tuzaklarından süzülmüş 10 zorlu soru. Hazırsan başlayalım.</p>
+                <form id="examForm">
+                    
+                    <div class="question">
+                        <p>1. İkili arama ağacına iteratif olarak eleman ekleme fonksiyonunda yazılan while döngüsü aşağıya inmeden önce, bulunduğumuz düğümü hangi komutla yedeklemeliyiz ki ekleme yapacağımız ebeveyni unutmayalım?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q1" value="a"> A) <code>current = root;</code></label>
+                            <label><input type="radio" name="q1" value="b"> B) <code>root = parent.left;</code></label>
+                            <label><input type="radio" name="q1" value="c"> C) <code>parent = current;</code></label>
+                            <label><input type="radio" name="q1" value="d"> D) <code>parent.next = current;</code></label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>2. Ayrı Zincirleme (Separate Chaining) algoritmasında tablodan bir elemanı sildiğimizde, neden <code>n.key</code> değil de <code>n.next.key</code> kontrol edilir?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q2" value="a"> A) Dizi sınırlarını aşmamak için.</label>
+                            <label><input type="radio" name="q2" value="b"> B) Tek yönlü bağlı listede bağlantıyı koparabilmek için bir önceki elemanın yerini bilmek gerektiğinden.</label>
+                            <label><input type="radio" name="q2" value="c"> C) Çarpışmaları önlemek için.</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>3. Java'da Hash tablosu indeksi hesaplanırken <code>(key.hashCode() & 0x7fffffff)</code> işlemi neden yapılır?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q3" value="a"> A) Tablo boyutunu aşmayı engeller.</label>
+                            <label><input type="radio" name="q3" value="b"> B) Negatif sayıların işaret bitini sıfırlayarak sonucun her zaman pozitif olmasını sağlar.</label>
+                            <label><input type="radio" name="q3" value="c"> C) Mod alma işlemini hızlandırır.</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>4. Linear Probing kullanan bir Closed Hashing tablosunda bir eleman silindiğinde, yerine neden <code>null</code> yazılamaz?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q4" value="a"> A) Arama zincirini kopartır, sonradan eklenen ve çakışan elemanlar bulunamaz.</label>
+                            <label><input type="radio" name="q4" value="b"> B) NullPointerException verir.</label>
+                            <label><input type="radio" name="q4" value="c"> C) Tablo boyutunu küçültür.</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>5. N adet elemanın ve M büyüklüğünde bir tablonun kullanıldığı istatistiksel Hashing analizinde, bir slotun tamamen boş kalma olasılığı hangi dağılımla ifade edilir?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q5" value="a"> A) Binom Dağılımı</label>
+                            <label><input type="radio" name="q5" value="b"> B) Poisson Dağılımı (e<sup>-α</sup>)</label>
+                            <label><input type="radio" name="q5" value="c"> C) Gauss Dağılımı</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>6. B-Tree (Derece t=3) ağacında yukarıdan aşağıya inerken bir düğümde 5 eleman (2t-1) gördünüz. Algoritma ne yapar?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q6" value="a"> A) Ağacın dengesini bozmamak için geçer.</label>
+                            <label><input type="radio" name="q6" value="b"> B) Proactive Splitting yaparak o düğümü hemen ikiye böler.</label>
+                            <label><input type="radio" name="q6" value="c"> C) Elemanı kuyruğa atar.</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>7. Bütün KENARLARI tam 1 kez gezdiğin, kalemi kağıttan kaldırmadan çizdiğin şekil hangi graftır ve şartı nedir?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q7" value="a"> A) Hamilton (Tüm düğüm dereceleri tek olmalı)</label>
+                            <label><input type="radio" name="q7" value="b"> B) Euler (Tüm düğüm dereceleri çift olmalı)</label>
+                            <label><input type="radio" name="q7" value="c"> C) Kruskal (Döngü olmamalı)</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>8. Ağırlıksız bir grafta En Kısa Yolu bulan algoritma hangisidir?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q8" value="a"> A) DFS (Stack kullanır)</label>
+                            <label><input type="radio" name="q8" value="b"> B) BFS (Queue kullanır)</label>
+                            <label><input type="radio" name="q8" value="c"> C) Prim</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>9. Kruskal Algoritmasında <code>parent[i] = find(parent[i])</code> satırı ne işe yarar?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q9" value="a"> A) Path Compression (Yol Sıkıştırma) yaparak ağacı dümdüz hale getirir ve O(1) maliyete indirir.</label>
+                            <label><input type="radio" name="q9" value="b"> B) Ağacı B-Tree'ye dönüştürür.</label>
+                            <label><input type="radio" name="q9" value="c"> C) Döngü yaratır.</label>
+                        </div>
+                    </div>
+
+                    <div class="question">
+                        <p>10. (Kod Analizi) Linear Probing (Açık Adresleme) kullanılarak tasarlanmış bir Hashing tablosunda "Mezar Taşı" mantığını uygulayan silme işlemi kodu hangisidir?</p>
+                        <div class="options">
+                            <label><input type="radio" name="q10" value="a"> A) <code>table[i] = null;</code></label>
+                            <label><input type="radio" name="q10" value="b"> B) <code>table[i].deleted = true;</code></label>
+                            <label><input type="radio" name="q10" value="c"> C) <code>table[i] = table[i+1];</code></label>
+                        </div>
+                    </div>
+
+                    <button type="button" class="action-btn" onclick="checkExam()" style="width: 100%; padding: 15px; font-size: 1.2rem;">Sınavı Tamamla ve Sonucu Gör</button>
+                </form>
+                <div id="exam-result"></div>
+            </div>
+        </div>
+
+    </div>
+
+    <script>
+        // --- SEKMELER ARASI GEÇİŞ ---
+        function showSection(sectionId) {
+            document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+            document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+            document.getElementById(sectionId).classList.add('active');
+            event.currentTarget.classList.add('active');
+        }
+
+        // --- LAB 1: HASHING (M=10) ---
+        const TABLE_SIZE = 10;
+        let hashTable = new Array(TABLE_SIZE).fill(null);
+
+        function renderTable() {
+            const container = document.getElementById('hashTableContainer');
+            container.innerHTML = ''; 
+            for(let i=0; i<TABLE_SIZE; i++) {
+                let val = hashTable[i] !== null ? hashTable[i] : "";
+                container.innerHTML += `
+                    <div class="hash-slot">
+                        <span class="slot-index">${i}</span>
+                        ${val}
+                    </div>
+                `;
+            }
+        }
+
+        function insertToHash() {
+            let val = parseInt(document.getElementById('hashInput').value);
+            const log = document.getElementById('lab-log');
+
+            if(isNaN(val)) {
+                log.innerText = "Lütfen geçerli bir sayı girin!";
+                log.style.color = "var(--danger)";
+                return;
+            }
+
+            let index = val % TABLE_SIZE;
+            let originalIndex = index;
+            let step = 0;
+
+            while(hashTable[index] !== null) {
+                step++;
+                if(step > TABLE_SIZE) {
+                    log.innerText = `Hata: Tablo %100 Dolu! (α = 1). Sistem kilitlendi.`;
+                    log.style.color = "var(--danger)";
+                    return;
+                }
+                index = (originalIndex + step) % TABLE_SIZE; 
+            }
+
+            hashTable[index] = val; 
+            renderTable();
+
+            if(step === 0) {
+                log.innerText = `[BAŞARILI] ${val} elemanı ${index}. indekse yerleşti (Çarpışma yok).`;
+                log.style.color = "var(--success)";
+            } else {
+                log.innerText = `[BİRİNCİL KÜMELENME] Çarpışma! Yuva ${originalIndex} doluydu. Linear probing ile kaydırılarak ${index}. indekse konuldu.`;
+                log.style.color = "var(--warning)";
+            }
+            document.getElementById('hashInput').value = ''; 
+        }
+
+        function resetHash() {
+            hashTable = new Array(TABLE_SIZE).fill(null);
+            document.getElementById('lab-log').innerText = "Tablo sıfırlandı. Olasılıklar yenilendi.";
+            document.getElementById('lab-log').style.color = "var(--text-main)";
+            renderTable();
+        }
+
+        // --- LAB 2: B-TREE HESAPLAYICI ---
+        function calculateBTree() {
+            let t = parseInt(document.getElementById('btreeInput').value);
+            if(isNaN(t) || t < 2) {
+                alert("B-Tree için minimum derece (t) en az 2 olmalıdır!");
+                return;
+            }
+            
+            document.getElementById('btreeResult').style.display = 'block';
+            document.getElementById('b-max-key').innerText = (2 * t) - 1;
+            document.getElementById('b-min-key').innerText = t - 1;
+            document.getElementById('b-max-child').innerText = 2 * t;
+            document.getElementById('b-min-child').innerText = t;
+            document.getElementById('b-split-point').innerText = (2 * t) - 1;
+        }
+
+        // --- SINAV SİSTEMİ (10 Soru, 10 Puan) ---
+        function checkExam() {
+            let score = 0;
+            let mistakes = [];
+
+            const ansKey = { 
+                q1: 'c', q2: 'b', q3: 'b', q4: 'a', q5: 'b', 
+                q6: 'b', q7: 'b', q8: 'b', q9: 'a', q10: 'b' 
+            };
+            
+            for (let [q, ans] of Object.entries(ansKey)) {
+                const selected = document.querySelector(`input[name="${q}"]:checked`);
+                if(selected && selected.value === ans) {
+                    score += 10;
+                } else {
+                    mistakes.push(q.replace('q', 'Soru '));
+                }
+            }
+
+            const log = document.getElementById('exam-result');
+            if(score === 100) {
+                log.innerHTML = `<span style="color: var(--success);">🏆 TEBRİKLER! Puan: 100. <br> Sen bu Algoritma Analizi finalini ezip geçeceksin!</span>`;
+            } else if(score >= 70) {
+                log.innerHTML = `<span style="color: var(--warning);">Puanın: ${score}. Geçer not aldın ama şu sorularda hata var: ${mistakes.join(', ')}. Notlara tekrar göz atmalısın.</span>`;
+            } else {
+                log.innerHTML = `<span style="color: var(--danger);">Puanın: ${score}. Bayağı eksik var. Hatalı sorular: ${mistakes.join(', ')}. Konuları tekrar et!</span>`;
+            }
+        }
+
+        window.onload = renderTable;
+    </script>
+</body>
+</html>
