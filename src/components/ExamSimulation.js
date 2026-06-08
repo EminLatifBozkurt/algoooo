@@ -2,123 +2,179 @@
 import React, { useState } from "react";
 
 const examQuestions = [
-  // ÇOKTAN SEÇMELİ (Multiple Choice) - 5 Soru x 10 Puan = 50 Puan
+  // ÇOKTAN SEÇMELİ (15 Soru)
   {
-    id: "q1",
-    type: "multiple-choice",
-    points: 10,
-    text: "1. B-Tree (Derece t=3) ağacında veri tabanı indekslemesi yaparken, yukarıdan aşağıya inerken kapasitesi tamamen dolmuş (2t-1 elemanlı) bir düğüm gördüğünüzde B-Tree algoritması hangi işlemi uygular?",
+    id: "q1", type: "multiple-choice", points: 3,
+    text: "1. İkili Arama Ağaçlarına (BST) ekleme yaparken iteratif while döngüsünde 'parent = current' atamasını unuttuğunuzu varsayalım. Current null olduğunda hangi hatayı alırsınız?",
     options: [
-      { value: "a", label: "A) Ağacın dengesini bozmamak için o düğümü atlar ve yapraklara kadar inmeye devam eder." },
-      { value: "b", label: "B) 'Proactive Splitting' yaparak o düğümü hemen ikiye böler ve ortanca elemanı yukarı iter." },
-      { value: "c", label: "C) Elemanı diske değil RAM'e (Önbelleğe) yazar." },
-      { value: "d", label: "D) Kırmızı-Siyah (Red-Black) ağacı rotasyonları uygular." }
-    ],
-    answer: "b"
+      { value: "a", label: "A) Ağaca yeni düğüm eklenir ama yanlış yere eklenir." },
+      { value: "b", label: "B) NullPointerException alınır veya eleman ağaca bağlanamaz çünkü yeni düğümü bağlayacağımız ebeveyni (parent) kaybetmiş oluruz." },
+      { value: "c", label: "C) Ağaç otomatik olarak AVL ağacına dönüşür." }
+    ], answer: "b"
   },
   {
-    id: "q2",
-    type: "multiple-choice",
-    points: 10,
-    text: "2. Ayrı Zincirleme (Separate Chaining) tablosundan eleman silme fonksiyonunda neden `n.key` yerine `n.next.key` kontrol edilerek ilerlenir?",
+    id: "q2", type: "multiple-choice", points: 3,
+    text: "2. BST'de 'İki Çocuklu Bir Düğümü' silerken, silinen düğümün yerine hangi eleman kopyalanır?",
     options: [
-      { value: "a", label: "A) Hash çarpışmalarını (Collision) önlemek için." },
-      { value: "b", label: "B) Dizi (Array) sınırlarını aşmamak için." },
-      { value: "c", label: "C) Tek yönlü bağlı listede bağlantıyı koparabilmek (n.next = n.next.next) için ebeveyn düğümün referansına ihtiyaç duyulduğundan." }
-    ],
-    answer: "c"
+      { value: "a", label: "A) Sol alt ağacın kökü" },
+      { value: "b", label: "B) Sağ alt ağacın kökü" },
+      { value: "c", label: "C) Sağ alt ağacın en KÜÇÜK elemanı (Inorder Successor)" },
+      { value: "d", label: "D) Sol alt ağacın en KÜÇÜK elemanı" }
+    ], answer: "c"
   },
   {
-    id: "q3",
-    type: "multiple-choice",
-    points: 10,
-    text: "3. Ağırlıksız bir grafta (tüm yollar 1 birim) A noktasından B noktasına giden 'En Kısa Yolu' kesin olarak bulan algoritma hangisidir?",
+    id: "q3", type: "multiple-choice", points: 3,
+    text: "3. Hashing işleminde 'Division Method' kullanırken h(k) = k mod M denklemi için M değeri nasıl seçilmelidir?",
     options: [
-      { value: "a", label: "A) DFS (Derinliğine Arama - Yığıt kullanır)" },
-      { value: "b", label: "B) BFS (Genişliğine Arama - Kuyruk kullanır)" },
-      { value: "c", label: "C) Kruskal Algoritması" },
-      { value: "d", label: "D) Euler Döngüsü" }
-    ],
-    answer: "b"
+      { value: "a", label: "A) Çift sayı olmalıdır." },
+      { value: "b", label: "B) 2'nin bir kuvveti olmalıdır (örn: 1024)." },
+      { value: "c", label: "C) Asal bir sayı olmalıdır." }
+    ], answer: "c"
   },
   {
-    id: "q4",
-    type: "multiple-choice",
-    points: 10,
-    text: "4. Java'da Hash tablosu indeksi hesaplanırken `(key.hashCode() & 0x7fffffff) % M` işlemi neden yapılır?",
+    id: "q4", type: "multiple-choice", points: 3,
+    text: "4. Ayrı Zincirleme (Separate Chaining) kullanan bir Hash tablosunda yeni eklenen eleman neden bağlı listenin EN BAŞINA (head) eklenir?",
     options: [
-      { value: "a", label: "A) Tablo boyutunu (M) aşmayı engeller." },
-      { value: "b", label: "B) Mod alma işlemini donanımsal olarak hızlandırır." },
-      { value: "c", label: "C) Negatif sayıların işaret bitini sıfırlayarak ArrayIndexOutOfBounds çökmesini (Crash) önler." }
-    ],
-    answer: "c"
+      { value: "a", label: "A) Silme işlemini hızlandırmak için." },
+      { value: "b", label: "B) O(1) sabit zamanda ekleme yapmak için (Sonuna eklemek O(N) zaman alır)." },
+      { value: "c", label: "C) Çarpışmaları (Collision) tamamen yok etmek için." }
+    ], answer: "b"
   },
   {
-    id: "q5",
-    type: "multiple-choice",
-    points: 10,
-    text: "5. N adet elemanın ve M büyüklüğünde bir tablonun kullanıldığı istatistiksel Hashing analizinde, bir slotun tamamen boş kalma olasılığı `e^(-α)` olarak hesaplanır. Bu hesaplama hangi olasılık dağılımından gelir?",
+    id: "q5", type: "multiple-choice", points: 3,
+    text: "5. Closed Hashing'de (Açık Adresleme) 'Mezar Taşı (Tombstone)' mantığı neyi çözer?",
     options: [
-      { value: "a", label: "A) Poisson Dağılımı" },
-      { value: "b", label: "B) Gauss Dağılımı" },
-      { value: "c", label: "C) Binom Dağılımı" }
-    ],
-    answer: "a"
-  },
-  // DOĞRU / YANLIŞ (True/False) - 3 Soru x 5 Puan = 15 Puan
-  {
-    id: "q6",
-    type: "true-false",
-    points: 5,
-    text: "6. (D/Y) Linear Probing (Açık Adresleme) yönteminde bir eleman silindiğinde, bulunduğu slota direkt olarak `null` değeri atanmalıdır.",
-    answer: "false"
+      { value: "a", label: "A) NullPointerException'ları çözer." },
+      { value: "b", label: "B) Linear Probing'de silinen bir yuvaya 'null' atandığında kopan arama zincirini (Search Chain) korumayı sağlar." },
+      { value: "c", label: "C) Hash fonksiyonunun hızını iki katına çıkarır." }
+    ], answer: "b"
   },
   {
-    id: "q7",
-    type: "true-false",
-    points: 5,
-    text: "7. (D/Y) Kruskal Algoritmasındaki 'Yol Sıkıştırma (Path Compression)' tekniği, Union-Find veri yapısının derinliğini azaltarak algoritma karmaşıklığını O(1)'e yaklaştırır.",
-    answer: "true"
+    id: "q6", type: "multiple-choice", points: 3,
+    text: "6. Bir Hash tablosunun Yük Faktörü (Load Factor - α) 0.9'a ulaştığında Linear Probing algoritmasının başarısız arama maliyeti ne olur?",
+    options: [
+      { value: "a", label: "A) Yaklaşık 2 adım" },
+      { value: "b", label: "B) Yaklaşık 5.5 adım" },
+      { value: "c", label: "C) Yaklaşık 50.5 adım (Ciddi performans çöküşü)" }
+    ], answer: "c"
   },
   {
-    id: "q8",
-    type: "true-false",
-    points: 5,
-    text: "8. (D/Y) İkili Arama Ağaçlarında (BST) tüm elemanları 'Pre-Order (Kök-Sol-Sağ)' sırasıyla okursak küçükten büyüğe sıralı liste elde ederiz.",
-    answer: "false"
-  },
-  // BOŞLUK DOLDURMA (Fill-in-the-blank) - 2 Soru x 10 Puan = 20 Puan
-  {
-    id: "q9",
-    type: "fill-blank",
-    points: 10,
-    text: "9. Hash tablolarında 'Dolu Eleman Sayısı / Toplam Slot Sayısı' formülüyle hesaplanan ve sistemin performansını doğrudan etkileyen orana ____________ denir.",
-    answer: ["yük faktörü", "load factor", "yuk faktoru", "yük faktoru"]
+    id: "q7", type: "multiple-choice", points: 3,
+    text: "7. Neden Oracle ve MySQL gibi devasa veritabanları İkili Arama Ağaçları (BST) yerine B+ Tree kullanır?",
+    options: [
+      { value: "a", label: "A) Disk okuma/yazma (I/O) maliyetini azaltmak için ağacın derinliğini kısa (yatayda geniş) tuttukları için." },
+      { value: "b", label: "B) Veriyi şifrelemek daha kolay olduğu için." },
+      { value: "c", label: "C) B-Tree bellekten (RAM) hiç harcamadığı için." }
+    ], answer: "a"
   },
   {
-    id: "q10",
-    type: "fill-blank",
-    points: 10,
-    text: "10. Bir grafta bütün 'KENARLARI' (yolları) kalemi kağıttan kaldırmadan tam bir kez gezerek başlangıç noktasına döndüğümüz döngüye ____________ döngüsü denir.",
-    answer: ["euler", "öyler"]
+    id: "q8", type: "multiple-choice", points: 3,
+    text: "8. B-Tree algoritmasında 'Proactive Splitting (Önceden Bölme)' nerede ve neden yapılır?",
+    options: [
+      { value: "a", label: "A) Yukarıdan aşağı inerken kapasitesi dolu (2t-1) bir düğüm görülünce hemen ikiye bölünür ki, sonradan aşağıdan yukarı (Backtracking) kırma işlemi gerekmesin." },
+      { value: "b", label: "B) Ağacı tamamen bellekten silmek için." },
+      { value: "c", label: "C) Yapraklara ulaşıldığında yapılır." }
+    ], answer: "a"
   },
-  // EŞLEŞTİRME (Matching) - 1 Soru x 15 Puan = 15 Puan
   {
-    id: "q11",
+    id: "q9", type: "multiple-choice", points: 3,
+    text: "9. Seyrek (Sparse) olan, yani çok fazla düğümü (Şehir) ama çok az kenarı (Yolu) olan bir Facebook arkadaş ağını bellekte tutmak için hangisi kullanılmalıdır?",
+    options: [
+      { value: "a", label: "A) Adjacency Matrix (Komşuluk Matrisi)" },
+      { value: "b", label: "B) Adjacency List (Komşuluk Listesi)" }
+    ], answer: "b"
+  },
+  {
+    id: "q10", type: "multiple-choice", points: 3,
+    text: "10. Bir labirente dalıp çıkmaza girene kadar derinlere inen, çıkmaza girince geri dönen (Backtracking) ve Stack (Yığıt) kullanan algoritma hangisidir?",
+    options: [
+      { value: "a", label: "A) BFS (Genişliğine Arama)" },
+      { value: "b", label: "B) DFS (Derinliğine Arama)" },
+      { value: "c", label: "C) Prim Algoritması" }
+    ], answer: "b"
+  },
+  {
+    id: "q11", type: "multiple-choice", points: 3,
+    text: "11. BFS algoritmasının kod implementasyonunda 'visited[neighbor] = true' ataması hangi aşamada yapılmalıdır?",
+    options: [
+      { value: "a", label: "A) Düğüm kuyruktan (Queue) çıkartıldığı an." },
+      { value: "b", label: "B) Düğüm kuyruğa eklendiği an (Aksi takdirde aynı düğüm defalarca kuyruğa eklenebilir)." }
+    ], answer: "b"
+  },
+  {
+    id: "q12", type: "multiple-choice", points: 3,
+    text: "12. Kruskal Algoritmasında iki şehri birbirine bağlarken döngü (Cycle) oluşup oluşmadığını anlayan fonksiyon ve mantığı hangisidir?",
+    options: [
+      { value: "a", label: "A) find(x) == find(y). Eğer iki şehrin en tepedeki atası aynıysa, döngü olur." },
+      { value: "b", label: "B) Mod alma işlemi." },
+      { value: "c", label: "C) Stack'e atarak kontrol edilir." }
+    ], answer: "a"
+  },
+  {
+    id: "q13", type: "multiple-choice", points: 3,
+    text: "13. Kruskal'daki 'Yol Sıkıştırma (Path Compression)' ne işe yarar?",
+    options: [
+      { value: "a", label: "A) Diskte kapladığı alanı ZIP gibi sıkıştırır." },
+      { value: "b", label: "B) Union-Find ağacında arama yaparken yoldaki tüm elemanları direkt Köke bağlayarak, bir sonraki arama maliyetini O(1)'e çeker." }
+    ], answer: "b"
+  },
+  {
+    id: "q14", type: "multiple-choice", points: 3,
+    text: "14. Ağırlıksız bir grafta En Kısa Yolu bulan algoritma nedir?",
+    options: [
+      { value: "a", label: "A) DFS" },
+      { value: "b", label: "B) BFS" },
+      { value: "c", label: "C) Kruskal" }
+    ], answer: "b"
+  },
+  {
+    id: "q15", type: "multiple-choice", points: 3,
+    text: "15. Hangi graf problemi bir 'NP-Complete' problemdir ve bilinen hızlı bir algoritması yoktur?",
+    options: [
+      { value: "a", label: "A) Euler Döngüsü (Tüm yolları gezme)" },
+      { value: "b", label: "B) Hamilton Döngüsü (Gezgin Satıcı - Tüm şehirleri tam 1 kez gezme)" },
+      { value: "c", label: "C) Topolojik Sıralama" }
+    ], answer: "b"
+  },
+
+  // DOĞRU / YANLIŞ (10 Soru)
+  { id: "q16", type: "true-false", points: 2, text: "16. (D/Y) Java'da (key.hashCode() & 0x7fffffff) işlemi, sayının her zaman tek sayı olmasını sağlar.", answer: "false" },
+  { id: "q17", type: "true-false", points: 2, text: "17. (D/Y) Double Hashing yönteminde, ikinci hash fonksiyonu (h2) hiçbir zaman '0' değerini üretmemelidir.", answer: "true" },
+  { id: "q18", type: "true-false", points: 2, text: "18. (D/Y) Adjacency Matrix'in uzay/bellek maliyeti O(V^2)'dir.", answer: "true" },
+  { id: "q19", type: "true-false", points: 2, text: "19. (D/Y) Adjacency List kullanarak yazılmış bir BFS'nin zaman karmaşıklığı O(V^3)'tür.", answer: "false" },
+  { id: "q20", type: "true-false", points: 2, text: "20. (D/Y) Inorder Traversal, İkili Arama Ağacındaki (BST) sayıları küçükten büyüğe sıralı şekilde ekrana yazdırır.", answer: "true" },
+  { id: "q21", type: "true-false", points: 2, text: "21. (D/Y) B-Tree'de (derece t=3) bir düğümde minimum (t-1) yani 2 eleman olmalıdır.", answer: "true" },
+  { id: "q22", type: "true-false", points: 2, text: "22. (D/Y) Kruskal Algoritması kenarları en pahalıdan (Büyükten) ucuza doğru sıralayarak başlar.", answer: "false" },
+  { id: "q23", type: "true-false", points: 2, text: "23. (D/Y) Prim Algoritması da Dijkstra gibi Min-Heap (Priority Queue) kullanılarak yazılabilir.", answer: "true" },
+  { id: "q24", type: "true-false", points: 2, text: "24. (D/Y) Java'daki HashMap, Yük Faktörü %75'i geçtiğinde kapasitesini iki katına çıkarıp (Rehashing) tüm verileri baştan dizer.", answer: "true" },
+  { id: "q25", type: "true-false", points: 2, text: "25. (D/Y) Postorder gezintisi, işletim sistemlerinde içi dolu klasörleri bellekten silmek için (Garbage Collection) mükemmel bir yapıdır.", answer: "true" },
+
+  // BOŞLUK DOLDURMA (10 Soru)
+  { id: "q26", type: "fill-blank", points: 2, text: "26. Bir Hash tablosunda Dolu Eleman Sayısının, Tablonun Toplam Kapasitesine bölünmesiyle elde edilen istatistiksel orana __________ denir.", answer: ["yük faktörü", "load factor", "yuk faktoru", "yük faktoru"] },
+  { id: "q27", type: "fill-blank", points: 2, text: "27. Linear Probing algoritmasında, dolu bir slot gördüğümüzde hemen bir sonraki slota bakma eğilimimiz, verilerin birbirine yapışarak büyük duvarlar oluşturduğu __________ (İngilizce 2 kelime) problemine neden olur.", answer: ["primary clustering", "birincil kümelenme", "primary cluster"] },
+  { id: "q28", type: "fill-blank", points: 2, text: "28. Sadece bağlı liste ve kuyruk kullanarak kodlanan, grafı dalga dalga (seviye seviye) gezen algoritmanın 3 harfli kısa adı nedir?", answer: ["bfs"] },
+  { id: "q29", type: "fill-blank", points: 2, text: "29. Birbirini gerektiren olayların sıraya konduğu (Örn: Üniversitede Matematik 1 almadan Matematik 2 alınamaz) yönlü graflarda DFS kullanılarak yapılan bu işleme __________ sıralama denir.", answer: ["topolojik", "topological"] },
+  { id: "q30", type: "fill-blank", points: 2, text: "30. Bir graftaki tüm düğümleri dolaşan ama bunu yaparken kenar maliyetlerini (ağırlıklarını) en aza indiren, içinde döngü barındırmayan alt yapıya (Kısaltması MST) Minimum __________ Tree denir.", answer: ["spanning"] },
+
+  // EŞLEŞTİRME (1 Büyük Soru - Matris)
+  {
+    id: "q31",
     type: "matching",
-    points: 15, // Her doğru eşleşme 5 puan
-    text: "11. Aşağıdaki algoritmaları ve veri yapılarını en uygun gerçek dünya kullanım senaryolarıyla eşleştiriniz:",
+    points: 15, 
+    text: "31. Algoritmaları ve Veri Yapılarını en uygun gerçek dünya kullanım alanlarıyla eşleştiriniz:",
     pairs: [
-      { id: "m1", left: "B+ Tree", right: "İlişkisel Veritabanlarında (SQL) verilerin diskte tutulması ve indekslenmesi." },
-      { id: "m2", left: "Kruskal / Prim (MST)", right: "Bir mahalleye en az kablo maliyetiyle fiber optik veya elektrik altyapısı döşenmesi." },
-      { id: "m3", left: "Topolojik Sıralama (DFS)", right: "Birbirini gerektiren (önkoşullu) üniversite derslerinin alınma sırasının planlanması." }
+      { id: "m1", left: "B+ Tree", right: "PostgreSQL ve MySQL disk indekslemesi" },
+      { id: "m2", left: "Separate Chaining", right: "RAM içi DNS (IP) Çözümleme Sistemleri" },
+      { id: "m3", left: "BFS (Genişliğine Arama)", right: "LinkedIn Ortak Arkadaş Öneri Algoritması" },
+      { id: "m4", left: "Kruskal / Prim (MST)", right: "Mahalleye ucuz maliyetli fiber optik çekilmesi" },
+      { id: "m5", left: "Topolojik Sıralama (DFS)", right: "Üniversite ders müfredatı bağımlılıkları" }
     ],
-    // The options shown in the dropdown
     options: [
-      "Bir mahalleye en az kablo maliyetiyle fiber optik veya elektrik altyapısı döşenmesi.",
-      "İlişkisel Veritabanlarında (SQL) verilerin diskte tutulması ve indekslenmesi.",
-      "Birbirini gerektiren (önkoşullu) üniversite derslerinin alınma sırasının planlanması.",
-      "Sosyal ağlarda 'Ortak Arkadaş' öneri sistemlerinin yapılması." // Şaşırtmaca
+      "Mahalleye ucuz maliyetli fiber optik çekilmesi",
+      "PostgreSQL ve MySQL disk indekslemesi",
+      "Üniversite ders müfredatı bağımlılıkları",
+      "RAM içi DNS (IP) Çözümleme Sistemleri",
+      "LinkedIn Ortak Arkadaş Öneri Algoritması"
     ]
   }
 ];
@@ -142,22 +198,24 @@ export default function ExamSimulation() {
   };
 
   const checkExam = () => {
-    let score = 0;
+    let rawScore = 0;
+    let maxPossibleScore = 0;
     let mistakes = [];
 
     examQuestions.forEach(q => {
+      maxPossibleScore += q.points;
       let isCorrect = false;
 
       if (q.type === "multiple-choice" || q.type === "true-false") {
         if (answers[q.id] === q.answer) {
-          score += q.points;
+          rawScore += q.points;
           isCorrect = true;
         }
       } 
       else if (q.type === "fill-blank") {
         const userAnswer = (answers[q.id] || "").trim().toLowerCase();
-        if (q.answer.includes(userAnswer)) {
-          score += q.points;
+        if (q.answer.includes(userAnswer) && userAnswer !== "") {
+          rawScore += q.points;
           isCorrect = true;
         }
       }
@@ -174,9 +232,9 @@ export default function ExamSimulation() {
           }
         });
         
-        score += matchScore;
+        rawScore += matchScore;
         if (allCorrect) isCorrect = true;
-        else if (matchScore > 0) mistakes.push(`${q.id.replace('q', 'Soru ')} (Kısmen doğru)`);
+        else if (matchScore > 0 && !allCorrect) mistakes.push(`${q.id.replace('q', 'Soru ')} (Kısmen doğru)`);
       }
 
       if (!isCorrect && q.type !== "matching") {
@@ -184,27 +242,29 @@ export default function ExamSimulation() {
       }
     });
 
-    setResult({ score: Math.round(score), mistakes });
+    // 100 üzerinden oransal hesaplama
+    const finalScore = Math.round((rawScore / maxPossibleScore) * 100);
+    setResult({ score: finalScore, mistakes });
   };
 
   return (
     <div className="section active">
-      <h1>Kapsamlı Final Simülasyonu (V2.0)</h1>
+      <h1>Kapsamlı Sınav Simülasyonu (V3.0 - Devasa Soru Havuzu)</h1>
       <div className="card">
         <p style={{ color: "var(--warning)", marginBottom: "20px" }}>
-          Sınav formatı güncellenmiştir! Çoktan seçmeli, doğru/yanlış, boşluk doldurma ve gerçek dünya eşleştirme senaryoları içerir. Hazırsan başlayalım!
+          Soru havuzu gerçek bir final sınavı düzeyine genişletildi (Toplam {examQuestions.length} Soru). Her sorunun puanı zorluğuna göre ayarlıdır. 100 üzerinden değerlendirilecektir.
         </p>
         
         {examQuestions.map(q => {
           return (
             <div className="question" key={q.id} style={{ marginBottom: "25px", padding: "15px", backgroundColor: "rgba(255,255,255,0.02)", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.05)" }}>
-              <p style={{ fontWeight: "bold", marginBottom: "15px" }}>{q.text}</p>
+              <p style={{ fontWeight: "bold", marginBottom: "15px" }}>{q.text} <span style={{fontSize: "0.8rem", color: "var(--accent-color)"}}>({q.points} Puan)</span></p>
               
               {/* Çoktan Seçmeli */}
               {q.type === "multiple-choice" && (
                 <div className="options">
                   {q.options.map(opt => (
-                    <label key={opt.value} style={{ display: "block", marginBottom: "8px", cursor: "pointer" }}>
+                    <label key={opt.value} style={{ display: "block", marginBottom: "8px", cursor: "pointer", lineHeight: "1.4" }}>
                       <input 
                         type="radio" 
                         name={q.id} 
@@ -265,7 +325,7 @@ export default function ExamSimulation() {
                           border: "1px solid rgba(255,255,255,0.2)", borderRadius: "6px" 
                         }}
                       >
-                        <option value="">-- Seçim Yapınız --</option>
+                        <option value="">-- Eşleştirin --</option>
                         {q.options.map((opt, idx) => (
                           <option key={idx} value={opt}>{opt}</option>
                         ))}
@@ -287,12 +347,12 @@ export default function ExamSimulation() {
                 <div style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "15px", color: result.score >= 80 ? "var(--success)" : result.score >= 50 ? "var(--warning)" : "var(--danger)" }}>
                   Puan: {result.score} / 100
                 </div>
-                {result.score === 100 ? (
-                    <p style={{ color: "var(--success)" }}>🏆 KUSURSUZ! Bütün veri yapılarına ve gerçek dünya uygulamalarına hakimsin.</p>
+                {result.score >= 90 ? (
+                    <p style={{ color: "var(--success)" }}>🏆 KUSURSUZ! Gerçek finali resmen ezip geçeceksin.</p>
                 ) : result.score >= 70 ? (
-                    <p style={{ color: "var(--warning)" }}>Tebrikler, geçer not aldın ama eksiklerin var. <br/><span style={{ fontSize: "1rem" }}>Hatalı/Eksik Sorular: {result.mistakes.join(', ')}</span></p>
+                    <p style={{ color: "var(--warning)" }}>Tebrikler, oldukça iyisin ama ufak dikkatsizlikler var. <br/><span style={{ fontSize: "1rem" }}>Hatalı/Eksik Sorular: {result.mistakes.join(', ')}</span></p>
                 ) : (
-                    <p style={{ color: "var(--danger)" }}>Maalesef algoritma bilgin henüz yeterli değil. <br/><span style={{ fontSize: "1rem" }}>Hatalı/Eksik Sorular: {result.mistakes.join(', ')}</span><br/><span style={{ fontSize: "1rem" }}>Özellikle yanlış yaptığın konulara geri dönmelisin.</span></p>
+                    <p style={{ color: "var(--danger)" }}>Bu devasa sınavda biraz geride kaldın. <br/><span style={{ fontSize: "1rem" }}>Hatalı/Eksik Sorular: {result.mistakes.join(', ')}</span><br/><span style={{ fontSize: "1rem" }}>Tüm kod bloklarını ve konuları tekrar gözden geçirmelisin!</span></p>
                 )}
             </div>
         )}
