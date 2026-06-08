@@ -12,8 +12,11 @@ import {
   Section7
 } from "@/components/TheoreticalSections";
 import LinearProbingLab from "@/components/labs/LinearProbingLab";
+import ChainingHashLab from "@/components/labs/ChainingHashLab";
 import BTreeLab from "@/components/labs/BTreeLab";
 import BSTLab from "@/components/labs/BSTLab";
+import GraphTraversalLab from "@/components/labs/GraphTraversalLab";
+import KruskalLab from "@/components/labs/KruskalLab";
 import ExamSimulation from "@/components/ExamSimulation";
 
 export default function Home() {
@@ -29,8 +32,11 @@ export default function Home() {
       case "sec-6": return <Section6 />;
       case "sec-7": return <Section7 />;
       case "lab-hash": return <LinearProbingLab />;
+      case "lab-chain": return <ChainingHashLab />;
       case "lab-btree": return <BTreeLab />;
       case "lab-bst": return <BSTLab />;
+      case "lab-graph": return <GraphTraversalLab />;
+      case "lab-kruskal": return <KruskalLab />;
       case "sinav": return <ExamSimulation />;
       default: return <Section1 />;
     }

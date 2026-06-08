@@ -17,8 +17,11 @@ export default function Sidebar({ activeSection, setActiveSection }) {
 
   const labs = [
     { id: "lab-hash", label: "🧪 Lab: Linear Probing" },
+    { id: "lab-chain", label: "⛓️ Lab: Ayrı Zincirleme" },
     { id: "lab-btree", label: "⚙️ Lab: B-Tree Analizi" },
     { id: "lab-bst", label: "🌲 Lab: Gelişmiş Ağaçlar" },
+    { id: "lab-graph", label: "🌐 Lab: DFS ve BFS Gezintisi" },
+    { id: "lab-kruskal", label: "🔗 Lab: Kruskal MST Algoritması" },
   ];
 
   const handleNavClick = (id) => {
