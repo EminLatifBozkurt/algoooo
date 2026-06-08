@@ -13,6 +13,7 @@ import {
 } from "@/components/TheoreticalSections";
 import LinearProbingLab from "@/components/labs/LinearProbingLab";
 import BTreeLab from "@/components/labs/BTreeLab";
+import BSTLab from "@/components/labs/BSTLab";
 import ExamSimulation from "@/components/ExamSimulation";
 
 export default function Home() {
@@ -29,6 +30,7 @@ export default function Home() {
       case "sec-7": return <Section7 />;
       case "lab-hash": return <LinearProbingLab />;
       case "lab-btree": return <BTreeLab />;
+      case "lab-bst": return <BSTLab />;
       case "sinav": return <ExamSimulation />;
       default: return <Section1 />;
     }

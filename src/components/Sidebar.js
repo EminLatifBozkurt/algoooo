@@ -18,6 +18,7 @@ export default function Sidebar({ activeSection, setActiveSection }) {
   const labs = [
     { id: "lab-hash", label: "🧪 Lab: Linear Probing" },
     { id: "lab-btree", label: "⚙️ Lab: B-Tree Analizi" },
+    { id: "lab-bst", label: "🌲 Lab: BST Görselleştirici" },
   ];
 
   const handleNavClick = (id) => {
