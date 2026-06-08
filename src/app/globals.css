@@ -186,3 +186,83 @@ pre { background-color: #111; padding: 20px; border-radius: 8px; overflow-x: aut
 table { width: 100%; border-collapse: collapse; margin-top: 15px; }
 th, td { padding: 12px; border: 1px solid var(--text-main); text-align: center; }
 th { background-color: var(--primary-bg); color: var(--accent); }
+
+/* Mobil Uyumlu Tasarım (Responsive) */
+.mobile-menu-btn {
+  display: none;
+  background-color: var(--sidebar-bg);
+  color: var(--accent);
+  border: none;
+  padding: 15px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  cursor: pointer;
+  text-align: center;
+  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 2px 5px rgba(0,0,0,0.5);
+}
+
+@media (max-width: 768px) {
+  body {
+    flex-direction: column;
+    overflow-y: auto; /* Mobil cihazlarda body kaydırmasına izin ver */
+    height: auto;
+  }
+  
+  .mobile-menu-btn {
+    display: block;
+  }
+  
+  .sidebar {
+    width: 100%;
+    display: none;
+    box-shadow: none;
+    padding: 10px 0;
+    height: auto;
+  }
+  
+  .sidebar.open {
+    display: flex;
+  }
+  
+  .content-area {
+    padding: 15px;
+    overflow-y: visible;
+  }
+  
+  h1 {
+    font-size: 1.6rem;
+  }
+
+  h2 {
+    font-size: 1.4rem;
+  }
+
+  /* Lab inputları ve butonları mobil için düzenle */
+  .controls {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  
+  input[type="number"], input[type="text"] {
+    width: 100%;
+    box-sizing: border-box;
+  }
+
+  /* Tabloların mobilde taşmasını engelle */
+  table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+  
+  .hash-slot {
+    width: 45px;
+    height: 45px;
+    font-size: 0.9rem;
+  }
+}
+

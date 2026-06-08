@@ -1,8 +1,10 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
 
 export default function Sidebar({ activeSection, setActiveSection }) {
+  const [isOpen, setIsOpen] = useState(false);
+
   const sections = [
     { id: "sec-1", label: "1. BST & Karmaşıklık" },
     { id: "sec-2", label: "2. Hashing Mimarisi" },
@@ -18,41 +20,51 @@ export default function Sidebar({ activeSection, setActiveSection }) {
     { id: "lab-btree", label: "⚙️ Lab: B-Tree Analizi" },
   ];
 
+  const handleNavClick = (id) => {
+    setActiveSection(id);
+    setIsOpen(false);
+  };
+
   return (
-    <div className="sidebar">
-      <h2>AlgoLab PRO</h2>
-      <p>Tam Kapsamlı Başucu Rehberi</p>
-
-      <div className="nav-category">Konu Anlatımları</div>
-      {sections.map((sec) => (
-        <button
-          key={sec.id}
-          className={`nav-btn ${activeSection === sec.id ? "active" : ""}`}
-          onClick={() => setActiveSection(sec.id)}
-        >
-          {sec.label}
-        </button>
-      ))}
-
-      <div className="nav-category">İnteraktif Laboratuvar</div>
-      {labs.map((lab) => (
-        <button
-          key={lab.id}
-          className={`nav-btn ${activeSection === lab.id ? "active" : ""}`}
-          onClick={() => setActiveSection(lab.id)}
-        >
-          {lab.label}
-        </button>
-      ))}
-
-      <div className="nav-category">Değerlendirme</div>
-      <button
-        className={`nav-btn ${activeSection === "sinav" ? "active" : ""}`}
-        style={{ color: "var(--warning)" }}
-        onClick={() => setActiveSection("sinav")}
-      >
-        📝 Final Simülasyonu
+    <>
+      <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "✕ Menüyü Kapat" : "☰ Menüyü Aç"}
       </button>
-    </div>
+      <div className={`sidebar ${isOpen ? "open" : ""}`}>
+        <h2>AlgoLab PRO</h2>
+        <p>Tam Kapsamlı Başucu Rehberi</p>
+
+        <div className="nav-category">Konu Anlatımları</div>
+        {sections.map((sec) => (
+          <button
+            key={sec.id}
+            className={`nav-btn ${activeSection === sec.id ? "active" : ""}`}
+            onClick={() => handleNavClick(sec.id)}
+          >
+            {sec.label}
+          </button>
+        ))}
+
+        <div className="nav-category">İnteraktif Laboratuvar</div>
+        {labs.map((lab) => (
+          <button
+            key={lab.id}
+            className={`nav-btn ${activeSection === lab.id ? "active" : ""}`}
+            onClick={() => handleNavClick(lab.id)}
+          >
+            {lab.label}
+          </button>
+        ))}
+
+        <div className="nav-category">Değerlendirme</div>
+        <button
+          className={`nav-btn ${activeSection === "sinav" ? "active" : ""}`}
+          style={{ color: "var(--warning)" }}
+          onClick={() => handleNavClick("sinav")}
+        >
+          📝 Final Simülasyonu
+        </button>
+      </div>
+    </>
   );
 }
