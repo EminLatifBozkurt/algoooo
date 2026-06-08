@@ -2,7 +2,7 @@
 import React, { useState } from "react";
 
 const examQuestions = [
-  // ÇOKTAN SEÇMELİ (15 Soru)
+  // ÇOKTAN SEÇMELİ
   {
     id: "q1", type: "multiple-choice", points: 3,
     text: "1. İkili Arama Ağaçlarına (BST) ekleme yaparken iteratif while döngüsünde 'parent = current' atamasını unuttuğunuzu varsayalım. Current null olduğunda hangi hatayı alırsınız?",
@@ -137,7 +137,7 @@ const examQuestions = [
     ], answer: "b"
   },
 
-  // DOĞRU / YANLIŞ (10 Soru)
+  // DOĞRU / YANLIŞ
   { id: "q16", type: "true-false", points: 2, text: "16. (D/Y) Java'da (key.hashCode() & 0x7fffffff) işlemi, sayının her zaman tek sayı olmasını sağlar.", answer: "false" },
   { id: "q17", type: "true-false", points: 2, text: "17. (D/Y) Double Hashing yönteminde, ikinci hash fonksiyonu (h2) hiçbir zaman '0' değerini üretmemelidir.", answer: "true" },
   { id: "q18", type: "true-false", points: 2, text: "18. (D/Y) Adjacency Matrix'in uzay/bellek maliyeti O(V^2)'dir.", answer: "true" },
@@ -149,32 +149,60 @@ const examQuestions = [
   { id: "q24", type: "true-false", points: 2, text: "24. (D/Y) Java'daki HashMap, Yük Faktörü %75'i geçtiğinde kapasitesini iki katına çıkarıp (Rehashing) tüm verileri baştan dizer.", answer: "true" },
   { id: "q25", type: "true-false", points: 2, text: "25. (D/Y) Postorder gezintisi, işletim sistemlerinde içi dolu klasörleri bellekten silmek için (Garbage Collection) mükemmel bir yapıdır.", answer: "true" },
 
-  // BOŞLUK DOLDURMA (10 Soru)
+  // BOŞLUK DOLDURMA
   { id: "q26", type: "fill-blank", points: 2, text: "26. Bir Hash tablosunda Dolu Eleman Sayısının, Tablonun Toplam Kapasitesine bölünmesiyle elde edilen istatistiksel orana __________ denir.", answer: ["yük faktörü", "load factor", "yuk faktoru", "yük faktoru"] },
   { id: "q27", type: "fill-blank", points: 2, text: "27. Linear Probing algoritmasında, dolu bir slot gördüğümüzde hemen bir sonraki slota bakma eğilimimiz, verilerin birbirine yapışarak büyük duvarlar oluşturduğu __________ (İngilizce 2 kelime) problemine neden olur.", answer: ["primary clustering", "birincil kümelenme", "primary cluster"] },
   { id: "q28", type: "fill-blank", points: 2, text: "28. Sadece bağlı liste ve kuyruk kullanarak kodlanan, grafı dalga dalga (seviye seviye) gezen algoritmanın 3 harfli kısa adı nedir?", answer: ["bfs"] },
   { id: "q29", type: "fill-blank", points: 2, text: "29. Birbirini gerektiren olayların sıraya konduğu (Örn: Üniversitede Matematik 1 almadan Matematik 2 alınamaz) yönlü graflarda DFS kullanılarak yapılan bu işleme __________ sıralama denir.", answer: ["topolojik", "topological"] },
   { id: "q30", type: "fill-blank", points: 2, text: "30. Bir graftaki tüm düğümleri dolaşan ama bunu yaparken kenar maliyetlerini (ağırlıklarını) en aza indiren, içinde döngü barındırmayan alt yapıya (Kısaltması MST) Minimum __________ Tree denir.", answer: ["spanning"] },
 
-  // EŞLEŞTİRME (1 Büyük Soru - Matris)
+  // TANIM VE KAVRAM EŞLEŞTİRMELERİ (Büyük Konu Başlıklarının Tanımları)
   {
-    id: "q31",
-    type: "matching",
-    points: 15, 
-    text: "31. Algoritmaları ve Veri Yapılarını en uygun gerçek dünya kullanım alanlarıyla eşleştiriniz:",
+    id: "q31", type: "matching", points: 10, 
+    text: "31. AĞAÇLARDA GEZİNME (Traversals) yöntemlerini tanımlarıyla eşleştiriniz:",
     pairs: [
-      { id: "m1", left: "B+ Tree", right: "PostgreSQL ve MySQL disk indekslemesi" },
-      { id: "m2", left: "Separate Chaining", right: "RAM içi DNS (IP) Çözümleme Sistemleri" },
-      { id: "m3", left: "BFS (Genişliğine Arama)", right: "LinkedIn Ortak Arkadaş Öneri Algoritması" },
-      { id: "m4", left: "Kruskal / Prim (MST)", right: "Mahalleye ucuz maliyetli fiber optik çekilmesi" },
-      { id: "m5", left: "Topolojik Sıralama (DFS)", right: "Üniversite ders müfredatı bağımlılıkları" }
+      { id: "m1", left: "Inorder Traversal", right: "Sayıları küçükten büyüğe sıralı (Sorted) yazdırır." },
+      { id: "m2", left: "Preorder Traversal", right: "Ağacın birebir kopyasını (Klon/Serialization) çıkartmak için kullanılır." },
+      { id: "m3", left: "Postorder Traversal", right: "Ağacı silmek (Önce çocukları sonra babayı yok etmek) için kullanılır." },
+      { id: "m4", left: "Level Order Traversal", right: "Kuyruk (Queue) yardımıyla ağacı katman katman gezer." }
     ],
     options: [
-      "Mahalleye ucuz maliyetli fiber optik çekilmesi",
-      "PostgreSQL ve MySQL disk indekslemesi",
-      "Üniversite ders müfredatı bağımlılıkları",
-      "RAM içi DNS (IP) Çözümleme Sistemleri",
-      "LinkedIn Ortak Arkadaş Öneri Algoritması"
+      "Ağacın birebir kopyasını (Klon/Serialization) çıkartmak için kullanılır.",
+      "Kuyruk (Queue) yardımıyla ağacı katman katman gezer.",
+      "Ağacı silmek (Önce çocukları sonra babayı yok etmek) için kullanılır.",
+      "Sayıları küçükten büyüğe sıralı (Sorted) yazdırır."
+    ]
+  },
+  {
+    id: "q32", type: "matching", points: 10, 
+    text: "32. HASHING (Çarpışma Çözme) yöntemlerini tanımlarıyla eşleştiriniz:",
+    pairs: [
+      { id: "m1", left: "Separate Chaining", right: "Dolu yuvadan dışarıya Bağlı Liste (Linked List) uzatır." },
+      { id: "m2", left: "Linear Probing", right: "Dolu yuvada bir sonrakine atlar, 'Birincil Kümelenme' yaratır." },
+      { id: "m3", left: "Quadratic Probing", right: "Dolu yuvada karesel (+1, +4, +9) atlar, 'İkincil Kümelenme' yaratır." },
+      { id: "m4", left: "Double Hashing", right: "İkinci bir Hash fonksiyonu kullanarak atlama adımını rastgeleleştirir." }
+    ],
+    options: [
+      "Dolu yuvada bir sonrakine atlar, 'Birincil Kümelenme' yaratır.",
+      "İkinci bir Hash fonksiyonu kullanarak atlama adımını rastgeleleştirir.",
+      "Dolu yuvada karesel (+1, +4, +9) atlar, 'İkincil Kümelenme' yaratır.",
+      "Dolu yuvadan dışarıya Bağlı Liste (Linked List) uzatır."
+    ]
+  },
+  {
+    id: "q33", type: "matching", points: 10, 
+    text: "33. GRAF TEORİSİ kavramlarını tanımlarıyla eşleştiriniz:",
+    pairs: [
+      { id: "m1", left: "Adjacency Matrix", right: "Bellek maliyeti O(V^2) olan ve V x V boyutunda tablo tutan yapı." },
+      { id: "m2", left: "Adjacency List", right: "Bellek maliyeti O(V+E) olan ve Seyrek (Sparse) graflar için en iyi yapı." },
+      { id: "m3", left: "Euler Döngüsü", right: "Bütün YOLLARI (Kenarları) tam 1 kez geçerek başa dönen rota." },
+      { id: "m4", left: "Hamilton Döngüsü", right: "Bütün ŞEHİRLERİ (Düğümleri) tam 1 kez ziyaret eden rota." }
+    ],
+    options: [
+      "Bütün ŞEHİRLERİ (Düğümleri) tam 1 kez ziyaret eden rota.",
+      "Bellek maliyeti O(V+E) olan ve Seyrek (Sparse) graflar için en iyi yapı.",
+      "Bütün YOLLARI (Kenarları) tam 1 kez geçerek başa dönen rota.",
+      "Bellek maliyeti O(V^2) olan ve V x V boyutunda tablo tutan yapı."
     ]
   }
 ];
@@ -200,7 +228,7 @@ export default function ExamSimulation() {
   const checkExam = () => {
     let rawScore = 0;
     let maxPossibleScore = 0;
-    let mistakes = [];
+    let detailedFeedback = {};
 
     examQuestions.forEach(q => {
       maxPossibleScore += q.points;
@@ -210,6 +238,17 @@ export default function ExamSimulation() {
         if (answers[q.id] === q.answer) {
           rawScore += q.points;
           isCorrect = true;
+          detailedFeedback[q.id] = { correct: true };
+        } else {
+          // Find correct label for multiple choice
+          let correctAnswerText = q.answer;
+          if (q.type === "multiple-choice") {
+            const correctOpt = q.options.find(o => o.value === q.answer);
+            if (correctOpt) correctAnswerText = correctOpt.label;
+          } else if (q.type === "true-false") {
+            correctAnswerText = q.answer === "true" ? "Doğru" : "Yanlış";
+          }
+          detailedFeedback[q.id] = { correct: false, correctAnswer: correctAnswerText };
         }
       } 
       else if (q.type === "fill-blank") {
@@ -217,47 +256,64 @@ export default function ExamSimulation() {
         if (q.answer.includes(userAnswer) && userAnswer !== "") {
           rawScore += q.points;
           isCorrect = true;
+          detailedFeedback[q.id] = { correct: true };
+        } else {
+          detailedFeedback[q.id] = { correct: false, correctAnswer: q.answer[0] };
         }
       }
       else if (q.type === "matching") {
         const userMatches = answers[q.id] || {};
         let matchScore = 0;
         let allCorrect = true;
+        let incorrectPairs = [];
         
         q.pairs.forEach(pair => {
           if (userMatches[pair.id] === pair.right) {
             matchScore += (q.points / q.pairs.length);
           } else {
             allCorrect = false;
+            incorrectPairs.push({ left: pair.left, right: pair.right });
           }
         });
         
         rawScore += matchScore;
-        if (allCorrect) isCorrect = true;
-        else if (matchScore > 0 && !allCorrect) mistakes.push(`${q.id.replace('q', 'Soru ')} (Kısmen doğru)`);
-      }
-
-      if (!isCorrect && q.type !== "matching") {
-        mistakes.push(q.id.replace('q', 'Soru '));
+        if (allCorrect) {
+          detailedFeedback[q.id] = { correct: true };
+        } else {
+          detailedFeedback[q.id] = { 
+            correct: false, 
+            partial: matchScore > 0, 
+            incorrectPairs: incorrectPairs 
+          };
+        }
       }
     });
 
-    // 100 üzerinden oransal hesaplama
     const finalScore = Math.round((rawScore / maxPossibleScore) * 100);
-    setResult({ score: finalScore, mistakes });
+    setResult({ score: finalScore, feedback: detailedFeedback });
   };
 
   return (
     <div className="section active">
-      <h1>Kapsamlı Sınav Simülasyonu (V3.0 - Devasa Soru Havuzu)</h1>
+      <h1>Kapsamlı Sınav Simülasyonu (V4.0)</h1>
       <div className="card">
         <p style={{ color: "var(--warning)", marginBottom: "20px" }}>
-          Soru havuzu gerçek bir final sınavı düzeyine genişletildi (Toplam {examQuestions.length} Soru). Her sorunun puanı zorluğuna göre ayarlıdır. 100 üzerinden değerlendirilecektir.
+          Soru havuzu {examQuestions.length} soruya genişletildi! Konuların tüm tanımlarını içeren yepyeni eşleştirme blokları eklendi. Sınavı tamamladıktan sonra hatalarınızı **doğrudan soruların üzerinde** görebileceksiniz.
         </p>
         
         {examQuestions.map(q => {
+          const isSubmitted = result !== null;
+          const feedback = isSubmitted ? result.feedback[q.id] : null;
+          
+          let borderStyle = "1px solid rgba(255,255,255,0.05)";
+          if (isSubmitted) {
+            if (feedback?.correct) borderStyle = "2px solid var(--success)";
+            else if (feedback?.partial) borderStyle = "2px solid var(--warning)";
+            else borderStyle = "2px solid var(--danger)";
+          }
+
           return (
-            <div className="question" key={q.id} style={{ marginBottom: "25px", padding: "15px", backgroundColor: "rgba(255,255,255,0.02)", borderRadius: "8px", border: "1px solid rgba(255,255,255,0.05)" }}>
+            <div className="question" key={q.id} style={{ marginBottom: "25px", padding: "15px", backgroundColor: "rgba(255,255,255,0.02)", borderRadius: "8px", border: borderStyle, transition: "all 0.3s ease" }}>
               <p style={{ fontWeight: "bold", marginBottom: "15px" }}>{q.text} <span style={{fontSize: "0.8rem", color: "var(--accent-color)"}}>({q.points} Puan)</span></p>
               
               {/* Çoktan Seçmeli */}
@@ -269,6 +325,7 @@ export default function ExamSimulation() {
                         type="radio" 
                         name={q.id} 
                         value={opt.value} 
+                        disabled={isSubmitted}
                         onChange={() => handleOptionChange(q.id, opt.value)} 
                         style={{ marginRight: "10px" }}
                       /> 
@@ -282,11 +339,11 @@ export default function ExamSimulation() {
               {q.type === "true-false" && (
                 <div className="options" style={{ display: "flex", gap: "20px" }}>
                   <label style={{ cursor: "pointer" }}>
-                    <input type="radio" name={q.id} value="true" onChange={() => handleOptionChange(q.id, "true")} style={{ marginRight: "8px" }}/> 
+                    <input type="radio" name={q.id} value="true" disabled={isSubmitted} onChange={() => handleOptionChange(q.id, "true")} style={{ marginRight: "8px" }}/> 
                     <strong style={{ color: "var(--success)" }}>Doğru</strong>
                   </label>
                   <label style={{ cursor: "pointer" }}>
-                    <input type="radio" name={q.id} value="false" onChange={() => handleOptionChange(q.id, "false")} style={{ marginRight: "8px" }}/> 
+                    <input type="radio" name={q.id} value="false" disabled={isSubmitted} onChange={() => handleOptionChange(q.id, "false")} style={{ marginRight: "8px" }}/> 
                     <strong style={{ color: "var(--danger)" }}>Yanlış</strong>
                   </label>
                 </div>
@@ -298,12 +355,13 @@ export default function ExamSimulation() {
                   <input 
                     type="text" 
                     placeholder="Cevabınızı buraya yazın..."
+                    disabled={isSubmitted}
                     onChange={(e) => handleOptionChange(q.id, e.target.value)}
                     style={{ 
                       width: "100%", padding: "12px", 
                       backgroundColor: "var(--bg-color)", color: "var(--text-color)", 
                       border: "1px solid var(--accent-color)", borderRadius: "6px",
-                      fontSize: "1rem"
+                      fontSize: "1rem", opacity: isSubmitted ? 0.7 : 1
                     }}
                   />
                 </div>
@@ -318,11 +376,13 @@ export default function ExamSimulation() {
                         {pair.left}
                       </div>
                       <select 
+                        disabled={isSubmitted}
                         onChange={(e) => handleMatchingChange(q.id, pair.id, e.target.value)}
                         style={{ 
                           flex: "2", minWidth: "250px", padding: "10px", 
                           backgroundColor: "var(--bg-color)", color: "var(--text-color)", 
-                          border: "1px solid rgba(255,255,255,0.2)", borderRadius: "6px" 
+                          border: "1px solid rgba(255,255,255,0.2)", borderRadius: "6px",
+                          opacity: isSubmitted ? 0.7 : 1
                         }}
                       >
                         <option value="">-- Eşleştirin --</option>
@@ -334,26 +394,63 @@ export default function ExamSimulation() {
                   ))}
                 </div>
               )}
+
+              {/* Hata Kontrol ve Geri Bildirim Ekranı (Sınav Bitince Çıkar) */}
+              {isSubmitted && (
+                <div style={{ marginTop: "15px", paddingTop: "15px", borderTop: "1px dashed rgba(255,255,255,0.1)" }}>
+                  {feedback.correct ? (
+                    <div style={{ color: "var(--success)", fontWeight: "bold" }}>✓ Doğru Cevap! Tam Puan.</div>
+                  ) : (
+                    <div>
+                      {feedback.partial && <div style={{ color: "var(--warning)", fontWeight: "bold", marginBottom: "5px" }}>⚠ Kısmen Doğru!</div>}
+                      {!feedback.partial && <div style={{ color: "var(--danger)", fontWeight: "bold", marginBottom: "5px" }}>✗ Yanlış Cevap!</div>}
+                      
+                      {/* Eşleştirme Dışındaki Hatalı Sorular İçin Doğru Cevabı Göster */}
+                      {q.type !== "matching" && (
+                         <div style={{ color: "var(--text-color)" }}><strong>Doğrusu:</strong> <span style={{color: "var(--accent-color)"}}>{feedback.correctAnswer}</span></div>
+                      )}
+                      
+                      {/* Eşleştirme İçin Hatalı Çiftleri Göster */}
+                      {q.type === "matching" && feedback.incorrectPairs && (
+                        <div style={{ color: "var(--text-color)", fontSize: "0.9rem" }}>
+                          <strong>Eksik/Hatalı Eşleşmelerin Doğruları:</strong>
+                          <ul style={{ paddingLeft: "20px", marginTop: "5px", color: "var(--accent-color)" }}>
+                            {feedback.incorrectPairs.map((errPair, idx) => (
+                              <li key={idx}><strong>{errPair.left}</strong> → {errPair.right}</li>
+                            ))}
+                          </ul>
+                        </div>
+                      )}
+                    </div>
+                  )}
+                </div>
+              )}
             </div>
           );
         })}
 
-        <button className="action-btn" onClick={checkExam} style={{ width: "100%", padding: "15px", fontSize: "1.2rem", marginTop: "10px" }}>
-            Sınavı Tamamla ve Sonucu Gör
-        </button>
+        {!result && (
+          <button className="action-btn" onClick={checkExam} style={{ width: "100%", padding: "15px", fontSize: "1.2rem", marginTop: "10px" }}>
+              Sınavı Tamamla ve Sonucu Gör
+          </button>
+        )}
 
         {result && (
             <div id="exam-result" style={{ fontSize: "1.3rem", marginTop: "30px", textAlign: "center", padding: "20px", borderRadius: "8px", backgroundColor: "rgba(0,0,0,0.2)", border: "1px solid var(--accent-color)" }}>
                 <div style={{ fontSize: "2.5rem", fontWeight: "bold", marginBottom: "15px", color: result.score >= 80 ? "var(--success)" : result.score >= 50 ? "var(--warning)" : "var(--danger)" }}>
-                  Puan: {result.score} / 100
+                  Skor: {result.score} / 100
                 </div>
                 {result.score >= 90 ? (
-                    <p style={{ color: "var(--success)" }}>🏆 KUSURSUZ! Gerçek finali resmen ezip geçeceksin.</p>
+                    <p style={{ color: "var(--success)" }}>🏆 KUSURSUZ! Yukarıdan cevaplarınızı inceleyebilirsiniz.</p>
                 ) : result.score >= 70 ? (
-                    <p style={{ color: "var(--warning)" }}>Tebrikler, oldukça iyisin ama ufak dikkatsizlikler var. <br/><span style={{ fontSize: "1rem" }}>Hatalı/Eksik Sorular: {result.mistakes.join(', ')}</span></p>
+                    <p style={{ color: "var(--warning)" }}>Tebrikler, oldukça iyisin! <br/> Lütfen yukarıya kaydırarak hatalı olduğun soruların (Kırmızı/Sarı Çerçeveli) doğru cevaplarını incele.</p>
                 ) : (
-                    <p style={{ color: "var(--danger)" }}>Bu devasa sınavda biraz geride kaldın. <br/><span style={{ fontSize: "1rem" }}>Hatalı/Eksik Sorular: {result.mistakes.join(', ')}</span><br/><span style={{ fontSize: "1rem" }}>Tüm kod bloklarını ve konuları tekrar gözden geçirmelisin!</span></p>
+                    <p style={{ color: "var(--danger)" }}>Bu sınavda biraz geride kaldın. <br/> Yukarıya kaydırarak kırmızı kutuya alınmış hatalı soruların DOĞRU CEVAPLARINI çalış!</p>
                 )}
+                
+                <button className="action-btn" onClick={() => window.location.reload()} style={{ padding: "10px 20px", fontSize: "1rem", marginTop: "20px", backgroundColor: "var(--secondary-accent)", color: "#121212" }}>
+                  Sınavı Baştan Çöz
+                </button>
             </div>
         )}
 
