@@ -27,9 +27,12 @@ export default function Sidebar({ activeSection, setActiveSection }) {
 
   return (
     <>
-      <button className="mobile-menu-btn" onClick={() => setIsOpen(!isOpen)}>
-        {isOpen ? "✕ Menüyü Kapat" : "☰ Menüyü Aç"}
+      <button className={`mobile-menu-btn ${isOpen ? "open" : ""}`} onClick={() => setIsOpen(!isOpen)}>
+        {isOpen ? "▶" : "◀"}
       </button>
+      
+      <div className={`sidebar-overlay ${isOpen ? "open" : ""}`} onClick={() => setIsOpen(false)}></div>
+
       <div className={`sidebar ${isOpen ? "open" : ""}`}>
         <h2>AlgoLab PRO</h2>
         <p>Tam Kapsamlı Başucu Rehberi</p>
