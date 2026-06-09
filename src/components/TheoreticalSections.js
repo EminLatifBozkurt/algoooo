@@ -1,10 +1,14 @@
 import React from "react";
 import BSTAnimation from "./animations/BSTAnimation";
+import BSTDeletionAnimation from "./animations/BSTDeletionAnimation";
 import HashingAnimation from "./animations/HashingAnimation";
+import ChainingAnimation from "./animations/ChainingAnimation";
+import RehashingAnimation from "./animations/RehashingAnimation";
 import BTreeAnimation from "./animations/BTreeAnimation";
 import GraphAnimation from "./animations/GraphAnimation";
 import TraversalAnimation from "./animations/TraversalAnimation";
 import MSTAnimation from "./animations/MSTAnimation";
+import PrimAnimation from "./animations/PrimAnimation";
 
 const CodeBlock = ({ code, language = "java" }) => (
   <div style={{ backgroundColor: "#1e1e1e", color: "#d4d4d4", padding: "15px", borderRadius: "8px", overflowX: "auto", fontFamily: "'Courier New', Courier, monospace", fontSize: "0.9rem", margin: "15px 0", borderLeft: "4px solid var(--accent-color)" }}>
@@ -54,6 +58,7 @@ export function Section1() {
       <div className="card">
         <h3>Düğüm Silme (Deletion) ve Inorder Successor Mantığı</h3>
         <p>Ağaçtan düğüm silmek, 3 farklı senaryo barındırır. En zoru "İki Çocuklu Düğüm" silmektir. Kökü veya ortadaki bir düğümü sildiğinizde, ağacın hiyerarşisi bozulmamalıdır. Bunun için silinen düğümün yerine, <strong>"Sağ alt ağacın EN KÜÇÜK elemanı (Inorder Successor)"</strong> geçirilir.</p>
+        <BSTDeletionAnimation />
         <CodeBlock code={`public Node deleteNode(Node root, int key) {
     if (root == null) return null;
 
@@ -111,6 +116,7 @@ export function Section2() {
       <div className="card">
         <h3>Separate Chaining (Ayrı Zincirleme) Kod Yapısı</h3>
         <p>Eğer aynı yuvaya (slota) birden fazla eleman denk gelirse, o yuvanın içinden bir "Bağlı Liste (Linked List)" uzatılır. Bu sayede dizinin boyutu dolmasına rağmen sonsuz eleman ekleyebilirsiniz.</p>
+        <ChainingAnimation />
         <CodeBlock code={`class HashNode {
     int key;
     String value;
@@ -194,6 +200,7 @@ export function Section3() {
         <h4>Java HashMap Nasıl Çalışır? (Rehashing)</h4>
         <p>Madem Linear Probing (veya herhangi bir kapalı adresleme) doldukça çöküyor, o zaman tablolar nasıl sonsuz eleman alabiliyor? Cevap: <strong>Rehashing (Yeniden Boyutlandırma)</strong>.</p>
         <p>Java'daki standart bir HashMap, <code>Load Factor == 0.75</code> sınırına ulaştığı anda, <strong>kapasitesini 2 katına çıkarır (M * 2)</strong>. Eski tablodaki tüm elemanların <code>hash(k) % (M*2)</code> işlemiyle yepyeni indeksleri hesaplanıp yeni tabloya tek tek taşınır. Bu işlem anlık olarak çok pahalıdır (O(N)), ancak çok nadir yapıldığı için Amortized (Genel Maliyet) olarak yine <code>O(1)</code> sayılır.</p>
+        <RehashingAnimation />
       </div>
     </div>
   );
@@ -390,6 +397,7 @@ if (find(sehirA) != find(sehirB)) {
       <div className="card">
         <h3>Prim Algoritması</h3>
         <p>Kruskal gibi tüm yolları sıralamak yerine (ki bu çok yol olan Dense graflarda felakettir), Prim algoritması tıpkı Dijkstra gibi bir noktadan başlar ve <strong>Priority Queue (Min-Heap)</strong> kullanarak, kendi fethettiği bölgelerden dışarı uzanan en ucuz dalı seçerek büyür.</p>
+        <PrimAnimation />
         <p>Eğer graf "Dense (Çok yoğun)" ise yani çok fazla kenar varsa, Prim algoritması Kruskal'ı ezer geçer. Çünkü Prim'de kenarları baştan sıralamaya gerek yoktur, maliyet <code>O(E log V)</code> olur.</p>
       </div>
     </div>
