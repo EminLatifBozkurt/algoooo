@@ -284,11 +284,105 @@ th { background-color: var(--primary-bg); color: var(--accent); }
     white-space: nowrap;
   }
   
-  .hash-slot {
-    width: 45px;
-    height: 45px;
-    font-size: 0.9rem;
-  }
+}
+
+/* Animasyon Bileşenleri Stilleri */
+.anim-container {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 180px;
+  background-color: rgba(0,0,0,0.2);
+  border: 1px dashed var(--accent);
+  border-radius: 8px;
+  margin: 20px 0;
+  padding: 20px;
+  position: relative;
+  overflow: hidden;
+}
+
+.anim-node {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: var(--primary-bg);
+  border: 2px solid var(--secondary-accent);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  color: var(--text-main);
+  transition: all 0.4s ease;
+  z-index: 2;
+  position: absolute;
+}
+
+.anim-node.highlight {
+  background-color: var(--accent);
+  border-color: var(--accent);
+  color: var(--primary-bg);
+  transform: scale(1.15);
+  box-shadow: 0 0 15px var(--accent);
+}
+
+.anim-node.success {
+  background-color: var(--success);
+  border-color: var(--success);
+  color: var(--primary-bg);
+  transform: scale(1.15);
+  box-shadow: 0 0 15px var(--success);
+}
+
+.anim-edge {
+  position: absolute;
+  height: 2px;
+  background-color: #444;
+  z-index: 1;
+  transition: all 0.4s ease;
+  transform-origin: 0 50%;
+}
+
+.anim-edge.highlight {
+  background-color: var(--accent);
+  height: 3px;
+  box-shadow: 0 0 8px var(--accent);
+}
+
+.btree-node {
+  display: flex;
+  border: 2px solid var(--secondary-accent);
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: var(--primary-bg);
+  transition: all 0.5s ease;
+  position: absolute;
+}
+
+.btree-key {
+  padding: 8px 12px;
+  border-right: 1px solid var(--secondary-accent);
+  font-weight: bold;
+  transition: all 0.3s;
+}
+.btree-key:last-child {
+  border-right: none;
+}
+
+.btree-key.highlight {
+  background-color: var(--accent);
+  color: var(--primary-bg);
+}
+
+.anim-message {
+  position: absolute;
+  bottom: 10px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: rgba(0,0,0,0.6);
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: var(--text-main);
 }
 
 

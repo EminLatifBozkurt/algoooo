@@ -1,4 +1,10 @@
 import React from "react";
+import BSTAnimation from "./animations/BSTAnimation";
+import HashingAnimation from "./animations/HashingAnimation";
+import BTreeAnimation from "./animations/BTreeAnimation";
+import GraphAnimation from "./animations/GraphAnimation";
+import TraversalAnimation from "./animations/TraversalAnimation";
+import MSTAnimation from "./animations/MSTAnimation";
 
 const CodeBlock = ({ code, language = "java" }) => (
   <div style={{ backgroundColor: "#1e1e1e", color: "#d4d4d4", padding: "15px", borderRadius: "8px", overflowX: "auto", fontFamily: "'Courier New', Courier, monospace", fontSize: "0.9rem", margin: "15px 0", borderLeft: "4px solid var(--accent-color)" }}>
@@ -17,6 +23,7 @@ export function Section1() {
       <div className="card">
         <h3>İteratif Ekleme (Insertion) Algoritması</h3>
         <p>Ağaca eleman eklerken özyineli (recursive) fonksiyon kullanmak Call Stack'i şişirebilir. Bu yüzden endüstri standartlarında <strong>iteratif (while döngülü)</strong> yaklaşım tercih edilir. Ancak burada dikkat edilmesi gereken en önemli şey, ağacın dibine indiğimizde (<code>current == null</code>) bir önceki düğümü (ebeveyni) unutmamaktır!</p>
+        <BSTAnimation />
         <CodeBlock code={`public void insert(int val) {
     Node newNode = new Node(val);
     if (root == null) {
@@ -141,6 +148,7 @@ public void insert(int key, String value) {
       <div className="card">
         <h3>Closed Hashing: Linear Probing ve Mezar Taşı (Tombstone)</h3>
         <p>Eğer dizinin içinde kalmak istiyorsak (bağlı liste yoksa), dolu bir yuva gördüğümüzde "bir sonrakine" (veya karesel adım sonrasına) atlarız. Ancak buradan eleman silmek kabustur. Doğrudan <code>null</code> yaparsanız, daha önce çarpışıp ileri kaymış elemanları bir daha asla bulamazsınız!</p>
+        <HashingAnimation />
         <CodeBlock code={`class Entry {
     int key;
     String value;
@@ -200,6 +208,7 @@ export function Section4() {
       <div className="card">
         <h3>B-Tree'nin Kodsal Anatomisi ve Proactive Splitting</h3>
         <p>B-Tree'de her düğüm (Disk Bloğu), içinde bir sürü eleman barındıran devasa bir dizidir. Bir düğümün alabileceği maksimum eleman sayısı <code>2t-1</code>'dir (t = derece).</p>
+        <BTreeAnimation />
         <CodeBlock code={`class BTreeNode {
     int[] keys;      // Düğümün içindeki veriler (Anahtarlar)
     BTreeNode[] children; // Çocuğa giden disk pointer'ları
@@ -231,6 +240,7 @@ export function Section5() {
     <div className="section active">
       <h1>Bölüm 5: Graf Teorisi ve Bellek Mimarileri</h1>
       <p>Graflar, dünyadaki ağ yapılarını (Sosyal medya, İnternet, Yollar) temsil eder. Bir grafı bellekte tutmanın iki yolu vardır. İşte kod karşılıkları:</p>
+      <GraphAnimation />
 
       <div className="card">
         <h3>Adjacency Matrix (Komşuluk Matrisi) - Bellek: O(V²)</h3>
@@ -281,7 +291,7 @@ export function Section6() {
   return (
     <div className="section active">
       <h1>Bölüm 6: Graflarda Gezinme: DFS ve BFS Kodları</h1>
-      
+      <TraversalAnimation />
       <div className="card">
         <h3>DFS (Derinliğine Arama) Kod Analizi</h3>
         <p>Labirente dalma mantığıdır. En uca kadar gider, çıkmaza girince geri döner. Stack bellek kullanır (Burada Recursive kullanarak işletim sisteminin Call Stack'ini sömürüyoruz).</p>
@@ -340,6 +350,7 @@ export function Section7() {
       <div className="card">
         <h3>Kruskal Algoritması ve Disjoint Set (Union-Find)</h3>
         <p>Kruskal haritaya bütün olarak bakar. En ucuz yolu alır. Ancak bu yolu haritaya çizerken bir <strong>DÖNGÜ (Cycle)</strong> oluşup oluşmayacağını bilmesi gerekir. Bunun için <strong>Union-Find</strong> veri yapısını ve sihirli "Yol Sıkıştırma (Path Compression)" algoritmasını kullanır.</p>
+        <MSTAnimation />
         <CodeBlock code={`class DisjointSet {
     int[] parent;
 
